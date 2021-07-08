@@ -1,0 +1,561 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width">
+	<link  rel="stylesheet" href="{% static 'judge/bs2.css' %}">
+	<link  rel="stylesheet" href="{% static 'judge/bs2-min.css' %}">
+	<script src="https://kit.fontawesome.com/f4de186f5b.js" crossorigin="anonymous"></script>
+	<link href="/static/froala_editor/css/froala_style.min.css" type="text/css" media="all" rel="stylesheet">
+<link data-name="vs/editor/editor.main" rel="stylesheet" href="{% static 'judge/vs/editor/editor.main.css' %}">
+<style>
+
+.btnn , .btnn1 {
+  border-radius: 8px;
+  border: none;
+  display: block;
+  text-align: center;
+  cursor: pointer;
+  text-transform: uppercase;
+  outline: none;
+  overflow: hidden;
+  position: relative;
+  color:black;
+  font-weight: 700;
+  font-size: 15px;
+  background-color: rgb(255,255,255);
+  padding: 10px 40px;
+  margin: 0 auto;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.20);
+}
+
+.btnn span , .btnn1 span {
+  position: relative; 
+  z-index: 1;
+}
+
+.btnn:after , .btnn1:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 490%;
+  width: 140%;
+  background: rgba(147,101,184,0.4);
+  -webkit-transition: all .5s ease-in-out;
+  transition: all .5s ease-in-out;
+  -webkit-transform: translateX(-98%) translateY(-25%) rotate(45deg);
+  transform: translateX(-98%) translateY(-25%) rotate(45deg);
+}
+
+.btnn:hover:after , .btnn1:hover:after {
+  -webkit-transform: translateX(-9%) translateY(-25%) rotate(45deg);
+  transform: translateX(-9%) translateY(-25%) rotate(45deg);
+}
+
+h2 {
+   width: 100%; 
+   text-align: center; 
+   border-bottom: 1px solid #000; 
+   line-height: 0.1em;
+   margin: 10px 0 20px; 
+} 
+
+h2 span { 
+    background:#fff; 
+    padding:0 10px; 
+}
+</style>
+</head>	
+<body>
+
+
+<pre data-preload="index/samples/sample.cpp.txt" style="display:none">
+#include &lt;bits/stdc++.h&gt;
+using namespace std;
+int main() {
+   // your code goes here
+   return 0;
+}
+</pre>
+	    <pre data-preload="index/samples/sample.c.txt" style="display:none">#include &lt;stdio.h&gt
+int main() {
+   // your code goes here
+   return 0;
+}</pre>
+	    <pre data-preload="index/samples/sample.java.txt" style="display:none">
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+public class Main
+{
+	public static void main(String[] args) {
+	   	// your code goes here
+	}
+}</pre>
+<pre data-preload="index/samples/sample.python.txt" style="display:none">#Enter your code here</pre>
+
+
+
+ <nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container">
+				<div class="logo">
+				<img style="margin-top:-8px;" src="{% static 'home/logo-icon.svg' %}" alt="icon">
+					<a href="{% url 'home'%}">IIITS-OJ</a>
+				</div>
+				<!-- collapse button for smaller screens -->
+				<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+
+				<!-- navbar title -->
+				<div class="nav-collapse collapse">
+					<ul class="nav">	
+						 {% if user.is_authenticated %}
+						<li><a href="{% url 'judge' %}" class="nav-item">Judge</a></li>
+						<li><a href="{% url 'ide' %}" class="nav-item">IDE</a></li>
+						<li><a href="{% url 'blog-home' %}" class="nav-item">Discuss</a></li>
+						
+                        <li><a class="nav-item nav-link" href="{% url 'profile' %}">Profile</a></li>
+                        <li><a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a></li>
+                       {% else %}
+					   <li><a href="{% url 'judge' %}" class="nav-item">Judge</a></li>
+					   <li><a href="{% url 'ide' %}" class="nav-item">IDE</a></li>
+					   <li><a href="{% url 'blog-home' %}" class="nav-item">Discuss</a></li>
+					   
+                       <li><a class="nav-item" href="{% url 'login' %}?next={{request.path}}">Login</a></li>
+                       <li><a class="nav-item" href="{% url 'register' %}">Register</a></li>
+                       {% endif %}
+					</ul>
+				</div>
+			</div>
+		</div>
+	</nav>
+
+
+<div class="container">
+<div class="row">
+<div class="span12">
+
+<table style="width: 100%;margin-top:15px">
+	<tbody>
+		<tr>
+			<td style="padding:15px;width: 100%; background-color: rgb(209, 213, 216);"><strong><span
+						style="font-size: 18px;">Problem</span></strong> <span style="font-size: 20px;"><a href="{% url 'detail' id %}">{{title}}</a></span>
+				&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+				&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+				&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+				&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+				&nbsp; &nbsp; &nbsp;&nbsp;</td>
+		</tr>
+		<tr>
+			<td style="padding-left:15px;width: 100%; background-color: rgb(239, 239, 239);"><strong>Time&nbsp;</strong>{{time_limit}}s
+				&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+				&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+				&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+				&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+				&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+				&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+				&nbsp; &nbsp; &nbsp;<strong>Mem:</strong>256MB
+				<br>
+			</td>
+		</tr>
+		
+		<tr>
+			<td style="width: 100%; background-color: rgb(255, 255, 255);">
+			<br><br>
+			<strong>Submit as file</strong>
+				<form id="viafile" enctype="multipart/form-data">
+					<div class="row-fluid">
+						<div class="span5">
+							<label class="control-label">Language</label>
+							<select id="language" name="language">
+								<option value="C">C</option>
+								<option value="C++">C++</option>
+								<option value="JAVA">Java</option>
+								<option value="PYTHON3">Python3</option>
+							</select>
+						</div>
+						<div class="span4">
+							<label class="control-label">Select file</label>
+							<input type="file" id="myfile" name="myfile" required><br><br>
+						</div>
+						<div class="span2">
+							<button type="submit" class="btnn1"><span>Submit</span></button>
+						</div>
+						<div class="span1">
+						<img id="run1" style="transform:translate(-100px,-14px)" src="{% static 'judge/spin.svg' %}" />
+						</div>
+					</div>
+				</form>
+
+			</td>
+		</tr>
+		<tr>
+		<td style="width: 100%;">
+		<div style="display:none" class="fr-view" id="viafile_result"></div>
+		</td>
+		<tr>
+	</tbody>
+</table>
+
+				
+	
+ 
+ 
+			
+
+
+  <h2><span>OR</span></h2>
+  </div>
+  </div>
+  </div>
+  
+  
+		
+<section class="try">
+	<div class="container">
+		<div class="editor row">
+			<div class="span12">
+			<Strong>Type your code</strong>
+				<div class="row-fluid">
+					<div class="span9">
+					    <br>
+						<label class="control-label">Language</label>
+						<select class="language-picker">
+							<option>select</option>
+						</select>
+					</div>
+					<div class="span3">
+					   <br>
+						<label class="control-label">Theme</label>
+						<select class="theme-picker">
+							<option>Light</option>
+							<option>Dark</option>
+							<option>High Contrast</option>
+						</select>
+					</div>
+				</div>
+				<div class="editor-frame">
+					<div class="loading editor" style="display: none;">
+						<div class="progress progress-striped active">
+							<div class="bar"></div>
+						</div>
+					</div>
+					<div id="editor"></div>
+				</div>
+			</div>
+		</div>
+		<form id="code_form">
+			{% csrf_token %}
+			<div class="row">
+				<div class="span12">
+					<div style="margin-bottom:10px;display:none" class="fr-view" id="result"></div>
+				</div>
+			</div>
+	</div>
+	<button type="submit" class="btnn"><span>Submit</span></button>
+	
+	</form>
+	
+	<center><img id="run" src="{% static 'judge/load.svg' %}" /></center>
+
+	</div>
+
+</section>
+
+
+      
+
+	
+		<footer class="container">
+		<hr>
+		<p class="text-center">
+			<title="Online IDE">
+				<img src="{% static 'judge/logo.png' %}" style="max-height:70px;margin-bottom:12px;">
+			
+			<br/>
+			<small>&copy; 2020 </small>
+		</p>
+     	</footer>
+
+
+	    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"
+	        integrity="sha256-wS9gmOZBqsqWxgIVgA8Y9WcQOa7PgSIX+rPA0VL2rbQ=" crossorigin="anonymous"></script>
+			<script src="{% static 'judge/bs2.js' %}"></script>
+
+
+	    <script>
+	        var require = {
+	            paths: {
+	                'vs': '{% static 'judge/vs/' %}'
+	            }
+	        };
+	    </script>
+	    <script src="{% static 'judge/vs/loader.js' %}"></script>
+	    <script src="{% static 'judge/vs/editor/editor.main.nls.js' %}"></script>
+	    <script src="{% static 'judge/vs/editor/editor.main.js' %}"></script>
+
+	    <script>
+	       
+
+
+	        "use strict";
+
+	        var editor = null;
+	           
+
+	        $(document).ready(function () {
+				$('#run').css('display','none');
+				$('#run1').css('display','none');
+	            require(['vs/editor/editor.main'], function () {
+	                var MODES = (function () {
+	                    var modesIds = monaco.languages.getLanguages().map(function (lang) {
+	                        return lang.id;
+	                    });
+	                    modesIds.sort();
+
+	                    return modesIds.map(function (modeId) {
+	                        return {
+	                            modeId: modeId,
+	                            sampleURL: 'index/samples/sample.' + modeId + '.txt'
+	                        };
+	                    });
+	                })();
+
+
+
+	                var startModeIndex = 5;
+	                for (var i = 0; i < MODES.length; i++) {
+	                    var o = document.createElement('option');
+	                    o.textContent = MODES[i].modeId;
+	                    if (i == 5) {
+	                        o.textContent = 'C';
+	                        $(".language-picker").append(o);
+	                    }
+	                    if (i == 9) {
+	                        o.textContent = 'C++';
+	                        $(".language-picker").append(o);
+	                    }
+                        if (i == 20) {
+	                        o.textContent = 'JAVA';
+	                        $(".language-picker").append(o);
+	                    }
+	                    if (i == 41) {
+	                        o.textContent = 'PYTHON3';
+	                        $(".language-picker").append(o);
+	                    }
+	                   
+
+
+
+
+	                }
+
+
+
+
+	             
+
+                    $(document).on('submit','#code_form',function(e){
+                    e.preventDefault();
+					if(window.editor == null)
+					return;
+					$('#run').css('display','block');
+					$('#result').css('display','none')
+					$('#viafile_result').css('display','none')
+					$('.btnn').prop('disabled',true);
+					$('.btnn1').prop('disabled',true);
+                    $.ajax({
+                            type:'post',
+                            url:'viacode/',
+                            data:{
+                                language:$(".language-picker").val(),
+                                code:window.editor.getValue(),
+                                csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
+                            },
+                            success:function(json)
+                            {
+                                $('#run').css('display','none');
+								$('.btnn').prop('disabled',false);
+								$('.btnn1').prop('disabled',false);
+								$('#result').css('display','block');
+								$('#result').html(json.response);
+                                
+                                
+                            }
+
+                        });
+                }); 
+
+                	    $(document).on('submit','#viafile',function(e) {
+						e.preventDefault();
+						$('#run1').css('display','block');
+						$('#result').css('display','none')
+						$('#viafile_result').css('display','none')
+						$('.btnn1').prop('disabled',true);
+						$('.btnn').prop('disabled',true);
+						var form = $('#viafile')[0];
+                        var data = new FormData(form);
+						$.ajax( {
+
+						
+						enctype: 'multipart/form-data',
+						url: 'viafile/',
+						type: 'POST',
+						data: data,
+                        processData: false,
+                        contentType: false,
+            			cache: false,
+						success:function(json)
+                            {
+                                $('#run1').css('display','none');
+								$('#viafile_result').css('display','block');
+								$('.btnn1').prop('disabled',false);
+								$('.btnn').prop('disabled',false);
+								$('#viafile_result').html(json.response);
+								form.reset();
+                            }
+					
+						} );
+					} );
+                   
+                 
+
+
+	                $(".language-picker")[0].selectedIndex = 0;
+
+
+	                $(".language-picker").change(function () {
+                         
+                        
+	                    if ($(".language-picker").val() == 'C')
+							{loadSample(MODES[5]);
+							$('#result').css('display','none');
+							$('#viafile_result').css('display','none');
+							
+							}
+						
+	                    else if ($(".language-picker").val() == 'C++')
+						    {
+	                        loadSample(MODES[9]);
+							$('#viafile_result').css('display','none');
+							$('#result').css('display','none')
+
+							}
+							
+	                    else if ($(".language-picker").val() == 'JAVA')
+						   {
+	                        loadSample(MODES[20]);
+							$('#viafile_result').css('display','none');
+						
+							$('#result').css('display','none')
+							}
+	                    else if ($(".language-picker").val() == 'PYTHON3')
+	                        {loadSample(MODES[41]);
+							$('#viafile_result').css('display','none');
+						
+							$('#result').css('display','none')
+							}
+	                    else if ($(".language-picker").val() == 'select')
+                            { loadSample(MODES[0]);
+						    $('#viafile_result').css('display','none');
+							$('#result').css('display','none')
+							}
+                        
+
+
+
+	                });
+
+	                $(".theme-picker").change(function () {
+	                    changeTheme(this.selectedIndex);
+	                });
+
+	               
+
+	               
+	            });
+
+	            window.onresize = function () {
+	                if (editor) {
+	                    editor.layout();
+	                }
+	               
+	            };
+	        });
+
+	        var preloaded = {};
+	        (function () {
+	            var elements = Array.prototype.slice.call(document.querySelectorAll('pre[data-preload]'), 0);
+
+	            elements.forEach(function (el) {
+	                var path = el.getAttribute('data-preload');
+	                preloaded[path] = el.innerText || el.textContent;
+	                el.parentNode.removeChild(el);
+	            });
+	        })();
+
+	        function xhr(url, cb) {
+	            if (preloaded[url]) {
+	                return cb(null, preloaded[url]);
+	            }
+	            $.ajax({
+	                type: 'GET',
+	                url: url,
+	                dataType: 'text',
+	                error: function () {
+	                    cb(this, null);
+	                }
+	            }).done(function (data) {
+	                cb(null, data);
+	            });
+	        }
+
+function loadSample(mode) {
+	$('.loading.editor').show();
+	xhr(mode.sampleURL, function(err, data) {
+		if (err) {
+			if (editor) {
+				if (editor.getModel()) {
+					editor.getModel().dispose();
+				}
+				editor.dispose();
+				editor = null;
+			}
+			$('.loading.editor').fadeOut({ duration: 200 });
+			$('#editor').empty();
+			$('#editor').append('<p class="alert alert-error">Select a language to code</p>');
+			return;
+		}
+
+		if (!editor) {
+			$('#editor').empty();
+			editor = monaco.editor.create(document.getElementById('editor'), {
+				model: null,
+			});
+		}
+
+		var oldModel = editor.getModel();
+		var newModel = monaco.editor.createModel(data, mode.modeId);
+		editor.setModel(newModel);
+		if (oldModel) {
+			oldModel.dispose();
+		}
+		$('.loading.editor').fadeOut({ duration: 300 });
+	})
+}
+
+	        
+	        function changeTheme(theme) {
+	            var newTheme = (theme === 1 ? 'vs-dark' : (theme === 0 ? 'vs' : 'hc-black'));
+	            monaco.editor.setTheme(newTheme);
+	        }
+	    </script>
+</body>

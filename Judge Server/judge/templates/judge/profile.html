@@ -1,0 +1,383 @@
+{% extends "judge/base.html" %}
+{% block content %}
+
+
+<main role="main" class="container content-section shadow-lg p-3  bg-white rounded">
+    <div class="row">
+      <div class="col-md-9">
+  {% if messages %}
+        {% for message in messages %}
+           <div class="alert alert-secondary">
+             {{message}}
+           </div>
+        {% endfor %}
+   {% endif %}
+
+   <div class="row">
+   <div class="col-md-2">
+
+   <img class="shadow-lg p-1 bg-white rounded img-fluid" src="{{usr.profile.image.url}}">
+  
+   </div>
+   <div class="col-md-5 mt-auto">
+    <h4>{{usr.first_name}} {{usr.last_name}}</h4>
+  </div>
+  </div>
+
+  <div style="background:black"><hr></div>
+
+  <div class="row">
+  <div class="col-md-3"><strong>Username:</strong></div>
+  <div class="col-md-9">{{usr.username}}</div>
+  </div><hr>
+
+  <div class="row">
+  <div class="col-md-3"><strong>E-mail:</strong></div>
+  <div class="col-md-9">{{usr.email}}</div>
+  </div><hr>
+
+  <div class="row">
+  <div class="col-md-3"><strong>Institution:</strong></div>
+  <div class="col-md-9">{{usr.profile.institution}}</div>
+  </div><hr>
+
+  <div class="row">
+  <div class="col-md-3"><strong>Bio:</strong></div>
+  <div class="col-md-9">{{usr.profile.bio}}</div>
+  </div><hr>
+
+  <div class="row">
+  <div class="col-md-3"><strong>Date joined:</strong></div>
+  <div class="col-md-9">{{usr.date_joined |date:"F d, Y"}}</div>
+  </div>
+  
+  <div style="background:black"><hr></div>
+  <h4>Submissions</h4>
+  {% if usr.profile.ce_solution or usr.profile.re_solution or usr.profile.tle_solution or usr.profile.wa_solution or usr.profile.ac_solution %}
+  <div class="row">
+  <div class="col-md-6 offset-md-3 p-5">
+  <canvas id="pieChart"></canvas>
+  </div>
+  </div>
+  <script>
+  var canvasP = document.getElementById("pieChart");
+  var ctxP = canvasP.getContext('2d');
+  var myPieChart = new Chart(ctxP, {
+   type: 'pie',
+    data: {
+      labels: ["compile_error            ", "runtime_error", "time_limit_exceeded", "wrong_answer","solutions_accepted"],
+      datasets: [{
+         data: [{{usr.profile.ce_solution}},{{usr.profile.re_solution}},{{usr.profile.tle_solution}},{{usr.profile.wa_solution}},{{usr.profile.ac_solution}}],
+         backgroundColor: ["#D0011B", "#FF7F00", "#FFBF00", "#666666","#5BC85B"],
+         //hoverBackgroundColor: ["#FF5A5E", "#FFC870", "#5AD3D1", "#90EE90"]
+      }]
+   },
+   options: {
+      legend: {
+         responsive: true,
+         display: true,
+         position: "bottom",
+      },
+   }
+});
+  </script>
+   {% else %}
+
+   <br>
+    <p>No submissions yet!</p>
+   {% endif %}
+
+
+  
+
+
+  <div style="background:black"><hr></div>
+  <h4>Rating Graph</h4><br>
+
+  {% if graph %}
+  <div class="row">
+  <div class="col-md-6 offset-md-3 content-section shadow-lg  bg-white rounded p-0" id="demo"></div>
+  </div>
+  <div class="row">
+  <div class="col-md-10 offset-md-1 ">
+
+  <canvas id="ratingchart"></canvas>
+  
+  </div>
+  </div>
+
+  <script>
+  {% if last.absolute > 0 %}
+
+          {% if last.new_rating <= 500 %}
+          document.getElementById("demo").innerHTML="<div class='row'><div class='col-3 p-0 text-white' style='background-color:#292b2c'><center class='mt-3'>{{last.new_rating}} (+{{last.absolute}})<br><small>Rating</small></center></div><div class='col-9'><center>{{last.event}}<br><small>{{last.date|date:"F d, Y"}}</small><br>Rank : {{last.local_rank}}<center></div></row>";
+
+          {% elif last.new_rating > 500 and last.new_rating <= 1000 %}
+          document.getElementById("demo").innerHTML="<div class='row'><div class='col-3 p-0 text-white' style='background-color:#5cb85c'><center class='mt-3'>{{last.new_rating}} (+{{last.absolute}})<br><small>Rating</small></center></div><div class='col-9'><center>{{last.event}}<br><small>{{last.date|date:"F d, Y"}}</small><br>Rank : {{last.local_rank}}<center></div></row>";
+          
+          {% elif last.new_rating > 1000 and last.new_rating <= 1500 %}
+          document.getElementById("demo").innerHTML="<div class='row'><div class='col-3 p-0 text-white' style='background-color:#5bc0de'><center class='mt-3'>{{last.new_rating}} (+{{last.absolute}})<br><small>Rating</small></center></div><div class='col-9'><center>{{last.event}}<br><small>{{last.date|date:"F d, Y"}}</small><br>Rank : {{last.local_rank}}<center></div></row>";
+
+          {% elif last.new_rating > 1500 and last.new_rating <= 2000 %}
+          document.getElementById("demo").innerHTML="<div class='row'><div class='col-3 p-0 text-white' style='background-color:#f0ad4e'><center class='mt-3'>{{last.new_rating}} (+{{last.absolute}})<br><small>Rating</small></center></div><div class='col-9'><center>{{last.event}}<br><small>{{last.date|date:"F d, Y"}}</small><br>Rank : {{last.local_rank}}<center></div></row>";
+          {% else %}
+          document.getElementById("demo").innerHTML="<div class='row'><div class='col-3 p-0 text-white' style='background-color:#d9534f'><center class='mt-3'>{{last.new_rating}} (+{{last.absolute}})<br><small>Rating</small></center></div><div class='col-9'><center>{{last.event}}<br><small>{{last.date|date:"F d, Y"}}</small><br>Rank : {{last.local_rank}}<center></div></row>";
+          {% endif %}
+
+  {% else %}
+
+          {% if last.new_rating <= 500 %}
+          document.getElementById("demo").innerHTML="<div class='row'><div class='col-3 p-0 text-white' style='background-color:#292b2c'><center class='mt-3'>{{last.new_rating}} ({{last.absolute}})<br><small>Rating</small></center></div><div class='col-9'><center>{{last.event}}<br><small>{{last.date|date:"F d, Y"}}</small><br>Rank : {{last.local_rank}}<center></div></row>";
+
+          {% elif last.new_rating > 500 and last.new_rating <= 1000 %}
+          document.getElementById("demo").innerHTML="<div class='row'><div class='col-3 p-0 text-white' style='background-color:#5cb85c'><center class='mt-3'>{{last.new_rating}} ({{last.absolute}})<br><small>Rating</small></center></div><div class='col-9'><center>{{last.event}}<br><small>{{last.date|date:"F d, Y"}}</small><br>Rank : {{last.local_rank}}<center></div></row>";
+          
+          {% elif last.new_rating > 1000 and last.new_rating <= 1500 %}
+          document.getElementById("demo").innerHTML="<div class='row'><div class='col-3 p-0 text-white' style='background-color:#5bc0de'><center class='mt-3'>{{last.new_rating}} ({{last.absolute}})<br><small>Rating</small></center></div><div class='col-9'><center>{{last.event}}<br><small>{{last.date|date:"F d, Y"}}</small><br>Rank : {{last.local_rank}}<center></div></row>";
+
+          {% elif last.new_rating > 1500 and last.new_rating <= 2000 %}
+          document.getElementById("demo").innerHTML="<div class='row'><div class='col-3 p-0 text-white' style='background-color:#f0ad4e'><center class='mt-3'>{{last.new_rating}} ({{last.absolute}})<br><small>Rating</small></center></div><div class='col-9'><center>{{last.event}}<br><small>{{last.date|date:"F d, Y"}}</small><br>Rank : {{last.local_rank}}<center></div></row>";
+
+          {% else %}
+          document.getElementById("demo").innerHTML="<div class='row'><div class='col-3 p-0 text-white' style='background-color:#d9534f'><center class='mt-3'>{{last.new_rating}} ({{last.absolute}})<br><small>Rating</small></center></div><div class='col-9'><center>{{last.event}}<br><small>{{last.date|date:"F d, Y"}}</small><br>Rank : {{last.local_rank}}<center></div></row>";
+          {% endif %}
+  {% endif %}
+   
+   
+   
+   var s2 = {
+  borderColor: 'red',
+  pointHoverRadius: 5,
+  pointHoverBackgroundColor: 'black',
+  data: [
+     { x: '{{usr.date_joined |date:"Y-m-d"}}', y: 0 },
+    {% for g in graph %}
+    { x: '{{g.date |date:"Y-m-d"}}', y: {{g.new_rating}} },
+    {% endfor %} 
+  ],
+
+ 
+};
+
+var cv = document.getElementById('ratingchart')
+var ctx = cv.getContext('2d');
+var chart = new Chart(ctx, {
+  type: 'line',
+  data: { datasets: [s2]},
+  options: {
+     tooltips: {
+    callbacks: {
+        label: function(tooltipItem) {
+            return "Rating: "+Number(tooltipItem.yLabel) ;
+        }
+    }
+},
+   
+
+
+
+        
+        legend: {
+            display: false,
+        },
+
+
+
+    scales: {
+
+					yAxes: [{
+						scaleLabel: {
+							display: true,
+							labelString: 'Rating'
+						}
+					}],
+    
+      xAxes: [{
+        type: 'time',
+       ticks: {
+                display: false
+            },
+          	scaleLabel: {
+							display: true,
+							labelString: 'Date'
+						}
+      }]
+    }
+
+    
+  }
+
+});
+
+cv.onclick = function(evt){
+    var activePoint = chart.getElementAtEvent(evt);
+    var project = document.querySelector('#demo');
+    
+    if( activePoint[0] )
+    {
+  
+    {% for g in graph%}
+      if({{forloop.counter}}==activePoint[0]._index)
+      {
+        project.style.opacity = 0;
+
+        {% if g.absolute > 0 %}
+
+          {% if g.new_rating <= 500 %}
+          document.getElementById("demo").innerHTML="<div class='row'><div class='col-3 p-0 text-white' style='background-color:#292b2c'><center class='mt-3'>{{g.new_rating}} (+{{g.absolute}})<br><small>Rating</small></center></div><div class='col-9'><center>{{g.event}}<br><small>{{g.date|date:"F d, Y"}}</small><br>Rank : {{g.local_rank}}<center></div></row>";
+
+          {% elif g.new_rating > 500 and g.new_rating <= 1000 %}
+          document.getElementById("demo").innerHTML="<div class='row'><div class='col-3 p-0 text-white' style='background-color:#5cb85c'><center class='mt-3'>{{g.new_rating}} (+{{g.absolute}})<br><small>Rating</small></center></div><div class='col-9'><center>{{g.event}}<br><small>{{g.date|date:"F d, Y"}}</small><br>Rank : {{g.local_rank}}<center></div></row>";
+          
+          {% elif g.new_rating > 1000 and g.new_rating <= 1500 %}
+          document.getElementById("demo").innerHTML="<div class='row'><div class='col-3 p-0 text-white' style='background-color:#5bc0de'><center class='mt-3'>{{g.new_rating}} (+{{g.absolute}})<br><small>Rating</small></center></div><div class='col-9'><center>{{g.event}}<br><small>{{g.date|date:"F d, Y"}}</small><br>Rank : {{g.local_rank}}<center></div></row>";
+
+          {% elif g.new_rating > 1500 and g.new_rating <= 2000 %}
+          document.getElementById("demo").innerHTML="<div class='row'><div class='col-3 p-0 text-white' style='background-color:#f0ad4e'><center class='mt-3'>{{g.new_rating}} (+{{g.absolute}})<br><small>Rating</small></center></div><div class='col-9'><center>{{g.event}}<br><small>{{g.date|date:"F d, Y"}}</small><br>Rank : {{g.local_rank}}<center></div></row>";
+
+          {% else %}
+          document.getElementById("demo").innerHTML="<div class='row'><div class='col-3 p-0 text-white' style='background-color:#d9534f'><center class='mt-3'>{{g.new_rating}} (+{{g.absolute}})<br><small>Rating</small></center></div><div class='col-9'><center>{{g.event}}<br><small>{{g.date|date:"F d, Y"}}</small><br>Rank : {{g.local_rank}}<center></div></row>";
+          {% endif %}
+
+  {% else %}
+
+          {% if g.new_rating <= 500 %}
+          document.getElementById("demo").innerHTML="<div class='row'><div class='col-3 p-0 text-white' style='background-color:#292b2c'><center class='mt-3'>{{g.new_rating}} ({{g.absolute}})<br><small>Rating</small></center></div><div class='col-9'><center>{{g.event}}<br><small>{{g.date|date:"F d, Y"}}</small><br>Rank : {{g.local_rank}}<center></div></row>";
+
+          {% elif g.new_rating > 500 and g.new_rating <= 1000 %}
+          document.getElementById("demo").innerHTML="<div class='row'><div class='col-3 p-0 text-white' style='background-color:#5cb85c'><center class='mt-3'>{{g.new_rating}} ({{g.absolute}})<br><small>Rating</small></center></div><div class='col-9'><center>{{g.event}}<br><small>{{g.date|date:"F d, Y"}}</small><br>Rank : {{g.local_rank}}<center></div></row>";
+          
+          {% elif g.new_rating > 1000 and g.new_rating <= 1500 %}
+          document.getElementById("demo").innerHTML="<div class='row'><div class='col-3 p-0 text-white' style='background-color:#5bc0de'><center class='mt-3'>{{g.new_rating}} ({{g.absolute}})<br><small>Rating</small></center></div><div class='col-9'><center>{{g.event}}<br><small>{{g.date|date:"F d, Y"}}</small><br>Rank : {{g.local_rank}}<center></div></row>";
+
+          {% elif g.new_rating > 1500 and g.new_rating <= 2000 %}
+          document.getElementById("demo").innerHTML="<div class='row'><div class='col-3 p-0 text-white' style='background-color:#f0ad4e'><center class='mt-3'>{{g.new_rating}} ({{g.absolute}})<br><small>Rating</small></center></div><div class='col-9'><center>{{g.event}}<br><small>{{g.date|date:"F d, Y"}}</small><br>Rank : {{g.local_rank}}<center></div></row>";
+
+          {% else %}
+          document.getElementById("demo").innerHTML="<div class='row'><div class='col-3 p-0 text-white' style='background-color:#d9534f'><center class='mt-3'>{{g.new_rating}} ({{g.absolute}})<br><small>Rating</small></center></div><div class='col-9'><center>{{g.event}}<br><small>{{g.date|date:"F d, Y"}}</small><br>Rank : {{g.local_rank}}<center></div></row>";
+          {% endif %}
+  {% endif %}
+          
+
+
+      }
+    {% endfor %}
+    
+    }
+    
+    
+     setTimeout(function(){ 
+     project.style.opacity = 1;
+  },200);
+    
+};
+
+  </script>
+  {% else %}
+  <p>No contest history found!</p>
+  {% endif %}
+
+
+
+  
+  
+
+
+
+
+
+  </div>
+
+ 
+
+  <div class="col-md-3">
+ 
+   <div class="content-section shadow-lg p-3  bg-white rounded">
+   <center><h1>{{usr.profile.rating}}</h1></center>
+
+   {% if usr.profile.star == 1 %}
+   <center><span class="badge badge-secondary"><span class="fa fa-star"></span></span><center>
+   {% elif usr.profile.star == 2 %}
+   <center><span class="badge badge-success"><span class="fa fa-star"></span><span class="fa fa-star"></span></center>
+   {% elif usr.profile.star == 3 %}
+   <center><span class="badge badge-info"><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span></center>
+   {% elif usr.profile.star == 4 %}
+   <center><span style="color:white" class="badge badge-warning"><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span></center>
+   {% elif usr.profile.star == 5 %}
+   <center><span class="badge badge-danger"><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span></center>
+   {% endif %}
+   <br>
+   <center>
+   <a href="#">IIITS-OJ Rating</a>
+   </center>
+
+   <center><small>(Highest Rating {{usr.profile.hrating}})<small></center>
+  <br>
+   <center><h4 style="margin-bottom:-5px">{{rank}}</h4><center>
+   <center><small>Rank<small></center>
+
+
+  </div>
+
+  <div class="content-section shadow-lg p-3  bg-white rounded" style="font-size: small;">
+    
+    <center><h4>Submissions</h4></center>
+    
+      <div class="row" >
+      <div class="col-6"><small><strong>Problem</strong></small></div>
+      <div class="col-3"><small><strong>Lang.</strong></small></div>
+      <div class="col-3"><small><strong>Result</strong></small></div>
+    </div>
+      <hr>
+      {% if solutions %}
+      {% for solution in solutions %}
+      
+      <div class="row">
+      <div class="col-6"><a href="{% url 'detail' solution.problem.id %}">{{solution.problem.title}}<br>{% if isAllowed %}
+      <a class= "badge badge-success" href="{{ request.scheme }}:////{{ request.get_host }}/media/{{solution.solution_file}}">View Sol.</a>
+      {% endif %}</a></div>
+      
+      <div class="col-3">{{solution.language}}</div>
+      <div class="col-3">{{solution.result.verdict}}</div>
+      
+
+      
+      
+      </div>
+      <hr>
+ 
+      {% endfor %}
+      {% else %}
+      <h6>No Submissions yet</h6>
+      
+      {% endif %}
+     
+    </div>
+    </div>
+  </div>
+  
+
+
+
+  <div>
+ 
+
+   
+
+  
+
+
+    
+
+
+	
+    
+ </main>
+
+  
+
+
+
+  
+
+{% endblock content %}

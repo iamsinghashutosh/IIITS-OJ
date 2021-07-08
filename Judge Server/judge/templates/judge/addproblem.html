@@ -1,0 +1,144 @@
+{% extends "judge/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+{{ form.media }}
+
+
+<main role="main" class="container">
+  <div class="row">
+    <div class="col-md-12">
+      {% if messages %}
+      {% for message in messages %}
+      <div class="alert alert-{{message.tags}}">
+        {{message}}
+      </div>
+      {% endfor %}
+      {% endif %}
+      <form action="save/" enctype="multipart/form-data" method="post">
+
+        {% csrf_token %}
+
+
+        <div class="form-group">
+
+          <label for="title">Problem Title</label><br>
+          <input type="text" class="form-control form-control-lg" name="title"><br>
+
+
+
+
+
+          {{form | crispy}}<br>
+
+          <label for="input_format">Input format</label><br>
+          <textarea autocomplete="off" rows="5" class="form-control" name="input_format"></textarea><br>
+
+          <label for="output_format">Output format</label><br>
+          <textarea autocomplete="off" rows="5" class="form-control" name="output_format"></textarea><br>
+
+          <div class="row">
+          <div class="col">
+          <label for="sample_input">Sample Input</label><br>
+          <textarea autocomplete="off" rows="5" style="font-family:Courier New;color:lime" class="bg-dark form-control" placeholder=">_" name="sample_input"></textarea><br>
+          </div>
+          <div class="col">
+          <label for="sample_output">Sample Output</label><br>
+          <textarea autocomplete="off" rows="5" style="font-family:Courier New;color:lime" class="bg-dark form-control" placeholder=">_" name="sample_output"></textarea><br>
+          </div>
+          </div>
+
+          <label for="explaination">Explaination</label><br>
+          <textarea autocomplete="off" rows="5" class="form-control" name="explaination"></textarea><br>
+
+          <div class="card ">
+          <div class="row mt-2 mb-1 p-3">
+          <div class="col-4 ">
+          
+          <label for="time_limit">Time limit (between 1s and 3s):</label>
+          <input type="number" class="btn btn-outline-secondary" name="time_limit" min="1" max="3" value="1"><br>
+          </div>
+          <div class="col-1"></div>
+          <div class="col-3">
+          <label for="difficulty">Difficulty:</label>
+          <select class="btn btn-outline-secondary " name="difficulty">
+            <option value="Easy">Easy</option>
+            <option value="Medium">Medium</option>
+            <option value="Hard">Hard</option>
+            <option value="Expert">Expert</option>
+          </select><br>
+         </div>
+         <div class="col-1"></div>
+           <div class="col-3">
+           
+          <div class="dropup">
+          <label>#Tags</label>
+            <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Select
+            </button>
+            <div class="dropdown-menu border border-dark p-4 bg-light" aria-labelledby="dropdownMenuButton">
+
+      
+              <input type="checkbox" class="chk" id="dp" name="tag[]" value="DP">
+              <label for="dp" class="chkt btn btn-outline-dark" >Dynamic Pro.</label><br>
+             
+         
+              <input type="checkbox" class="chk" id="bm" name="tag[]" value="Bit-mask">
+              <label for="bm" class="chkt btn btn-outline-dark">Bit-masking</label><br>
+        
+
+           
+              <input type="checkbox" class="chk" id="gd" name="tag[]" value="Greedy">
+              <label for="gd" class="chkt btn btn-outline-dark" >Greedy</label><br>
+          
+
+        
+              <input type="checkbox" class="chk" id="gph" name="tag[]" value="Graph">
+              <label for="gph" class="chkt  btn btn-outline-dark">Graph</label><br>
+        
+
+    
+              <input type="checkbox" class="chk" id="dc" name="tag[]" value="Divide-Conquer">
+              <label for="dc" class="chkt btn btn-outline-dark">Divide-conquer</label><br>
+        
+              <input type="checkbox" class="chk" id="srt" name="tag[]" value="Sorting">
+              <label for="srt" class="chkt btn btn-outline-dark">Sorting</label>
+            
+            </div>
+          </div>
+          </div>
+          </div>
+          </div><br>
+
+
+
+
+           <div class="card p-3">
+           <div class="row">
+           <div class="col">
+          <label for="input_file">Select input file:</label>
+          <input class="btn btn-outline-secondary" type="file" name="input_file"><br>
+          </div>
+          <div class="col">
+          <label for="output_file">Select output file:</label>
+          <input class="btn btn-outline-secondary" type="file" name="output_file"><br>
+          </div>
+          </div>
+          </div>
+          <br>
+          <center>
+          <input class="btn btn-secondary" type="submit" value="        Submit         ">
+          </center>
+        </div>
+
+      </form>
+
+      
+
+    </div>
+  </div>
+</main>
+
+
+{% endblock content %}

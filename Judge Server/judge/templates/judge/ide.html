@@ -1,0 +1,446 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width">
+	<link  rel="stylesheet" href="{% static 'judge/bs2.css' %}">
+	<link  rel="stylesheet" href="{% static 'judge/bs2-min.css' %}">
+	<link href="/static/froala_editor/css/froala_style.min.css" type="text/css" media="all" rel="stylesheet">
+
+<link data-name="vs/editor/editor.main" rel="stylesheet" href="{% static 'judge/vs/editor/editor.main.css' %}">
+
+<style>
+body{
+       font-family: 'Open Sans', arial, sans-serif;
+    }
+
+.btnn {
+  border-radius: 8px;
+  border: none;
+  display: block;
+  text-align: center;
+  cursor: pointer;
+  text-transform: uppercase;
+  outline: none;
+  overflow: hidden;
+  position: relative;
+  color:black;
+  font-weight: 700;
+  font-size: 15px;
+  background-color: rgb(255,255,255);
+  padding: 17px 60px;
+  margin: 0 auto;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.20);
+}
+
+.btnn span {
+  position: relative; 
+  z-index: 1;
+}
+
+.btnn:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 490%;
+  width: 140%;
+  background: rgba(147,101,184,0.4);
+  -webkit-transition: all .5s ease-in-out;
+  transition: all .5s ease-in-out;
+  -webkit-transform: translateX(-98%) translateY(-25%) rotate(45deg);
+  transform: translateX(-98%) translateY(-25%) rotate(45deg);
+}
+
+.btnn:hover:after {
+  -webkit-transform: translateX(-9%) translateY(-25%) rotate(45deg);
+  transform: translateX(-9%) translateY(-25%) rotate(45deg);
+}
+</style>
+</head>	
+<body>
+
+
+<pre data-preload="index/samples/sample.cpp.txt" style="display:none">
+#include &lt;bits/stdc++.h&gt;
+using namespace std;
+int main() {
+   // your code goes here
+   return 0;
+}
+</pre>
+	    <pre data-preload="index/samples/sample.c.txt" style="display:none">#include &lt;stdio.h&gt
+int main() {
+   // your code goes here
+   return 0;
+}</pre>
+	    <pre data-preload="index/samples/sample.java.txt" style="display:none">
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+public class Main
+{
+	public static void main(String[] args) {
+	   	// your code goes here
+	}
+}</pre>
+<pre data-preload="index/samples/sample.python.txt" style="display:none">#Enter your code here</pre>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container">
+				<div class="logo">
+				<img style="margin-top:-8px;" src="{% static 'home/logo-icon.svg' %}" alt="icon"></span>
+                <a href="{% url 'home' %}"><strong>IIITS</strong>-OJ</a>
+					
+				</div>
+				<!-- collapse button for smaller screens -->
+				<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+
+				<!-- navbar title -->
+				<div class="nav-collapse collapse">
+					<ul class="nav">	
+						 {% if user.is_authenticated %}
+						<li><a href="{% url 'judge' %}" class="nav-item">Judge</a></li>
+						<li><a href="{% url 'blog-home' %}" class="nav-item">Discuss</a></li>
+						{% comment %} <li> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+						</li> {% endcomment %}
+                        <li><a class="nav-item nav-link" href="{% url 'profile' %}">Profile</a></li>
+                        <li><a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a></li>
+                       {% else %}
+					   <li><a href="{% url 'judge' %}" class="nav-item">Judge</a></li>
+					   <li><a href="{% url 'blog-home' %}" class="nav-item">Discuss</a></li>
+					   {% comment %} <li> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+					   &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+					   &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+					   &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+					   </li> {% endcomment %}
+                       <li><a class="nav-item" href="{% url 'login' %}?next={{request.path}}">Login</a></li>
+                       <li><a class="nav-item" href="{% url 'register' %}">Register</a></li>
+                       {% endif %}
+					</ul>
+				</div>
+			</div>
+		</div>
+	</nav>
+		
+<section class="try">
+	<div class="container">
+		<div class="editor row">
+			<div class="span12">
+				<div class="row-fluid">
+					<div class="span9">
+						<label class="control-label">Language</label>
+						<select class="language-picker">
+							<option>select</option>
+						</select>
+					</div>
+					<div class="span3">
+						<label class="control-label">Theme</label>
+						<select class="theme-picker">
+							<option>Light</option>
+							<option>Dark</option>
+							<option>High Contrast</option>
+						</select>
+					</div>
+				</div>
+				<div class="editor-frame">
+					<div class="loading editor" style="display: none;">
+						<div class="progress progress-striped active">
+							<div class="bar"></div>
+						</div>
+					</div>
+					<div id="editor"></div>
+				</div>
+			</div>
+		</div>
+		<form id="code_form">
+			{% csrf_token %}
+			<div class="row">
+				<div class="span12">
+					<textarea style="width:100%;font-family:Courier New;color:lime;background:rgb(41,43,44)	" rows="7" id="custom_input"
+						placeholder="Custom input"></textarea><br><br>
+					<div style="margin-bottom:10px;display:none" class="fr-view" id="result"></div>
+				</div>
+			</div>
+	</div>
+	<button type="submit" class="btnn"><span>Run</span></button>
+	
+	</form>
+	
+	<center><img id="run" src="{% static 'judge/load.svg' %}" /></center>
+
+	</div>
+
+</section>
+
+
+      
+
+	
+		<footer class="container">
+		<hr>
+		<p class="text-center">
+			<a href="/" title="IIITS-OJ">
+			    
+				<img src="{% static 'judge/logo.png' %}" style="max-height:70px;margin-bottom:12px;">
+			</a>
+			<br/>
+			<small>&copy; 2020</small>
+		</p>
+     	</footer>
+
+
+	    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"
+	        integrity="sha256-wS9gmOZBqsqWxgIVgA8Y9WcQOa7PgSIX+rPA0VL2rbQ=" crossorigin="anonymous"></script>
+			<script src="{% static 'judge/bs2.js' %}"></script>
+
+
+	    <script>
+	        var require = {
+	            paths: {
+	                'vs': '{% static 'judge/vs/' %}'
+	            }
+	        };
+	    </script>
+	    <script src="{% static 'judge/vs/loader.js' %}"></script>
+	    <script src="{% static 'judge/vs/editor/editor.main.nls.js' %}"></script>
+	    <script src="{% static 'judge/vs/editor/editor.main.js' %}"></script>
+
+	    <script>
+	       
+
+
+	        "use strict";
+
+	        var editor = null;
+	           
+
+	        $(document).ready(function () {
+				$('#custom_input').css('display','none');
+				$('#run').css('display','none');
+	            require(['vs/editor/editor.main'], function () {
+	                var MODES = (function () {
+	                    var modesIds = monaco.languages.getLanguages().map(function (lang) {
+	                        return lang.id;
+	                    });
+	                    modesIds.sort();
+
+	                    return modesIds.map(function (modeId) {
+	                        return {
+	                            modeId: modeId,
+	                            sampleURL: 'index/samples/sample.' + modeId + '.txt'
+	                        };
+	                    });
+	                })();
+
+
+
+	                var startModeIndex = 5;
+	                for (var i = 0; i < MODES.length; i++) {
+	                    var o = document.createElement('option');
+	                    o.textContent = MODES[i].modeId;
+	                    if (i == 5) {
+	                        o.textContent = 'C';
+	                        $(".language-picker").append(o);
+	                    }
+	                    if (i == 9) {
+	                        o.textContent = 'C++';
+	                        $(".language-picker").append(o);
+	                    }
+                        if (i == 20) {
+	                        o.textContent = 'JAVA';
+	                        $(".language-picker").append(o);
+	                    }
+	                    if (i == 41) {
+	                        o.textContent = 'PYTHON3';
+	                        $(".language-picker").append(o);
+	                    }
+	                   
+
+
+
+
+	                }
+
+
+	             
+
+                    $(document).on('submit','#code_form',function(e){
+                    e.preventDefault();
+					if(window.editor == null)
+					return;
+					$('#run').css('display','block');
+					$('#result').css('display','none')
+					$('.btnn').prop('disabled',true);
+                    $.ajax({
+                            type:'post',
+                            url:'runcode/',
+                            data:{
+                                language:$(".language-picker").val(),
+                                code:window.editor.getValue(),
+                                custom_input:$('#custom_input').val(),
+                                csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
+                            },
+                            success:function(json)
+                            {
+                                $('#run').css('display','none');
+								$('.btnn').prop('disabled',false);
+								$('#result').css('display','block');
+								$('#result').html(json.response);
+                                console.log("Success");
+                                
+                            }
+
+                        });
+                }); 
+
+                   
+                 
+
+
+	                $(".language-picker")[0].selectedIndex = 0;
+
+
+	                $(".language-picker").change(function () {
+                         
+                        
+	                    if ($(".language-picker").val() == 'C')
+							{loadSample(MODES[5]);
+							$('#result').css('display','none')
+							$('#custom_input').css('display','block');
+							$('#custom_input').val('')='';
+							
+							}
+						
+	                    else if ($(".language-picker").val() == 'C++')
+						    {
+	                        loadSample(MODES[9]);
+							
+							$('#custom_input').css('display','block');
+							$('#custom_input').val('');
+							$('#result').css('display','none')
+							}
+							
+	                    else if ($(".language-picker").val() == 'JAVA')
+						   {
+	                        loadSample(MODES[20]);
+							
+							$('#custom_input').css('display','block');
+							$('#custom_input').val('');
+							$('#result').css('display','none')
+							}
+	                    else if ($(".language-picker").val() == 'PYTHON3')
+	                        {loadSample(MODES[41]);
+							
+							$('#custom_input').css('display','block');
+							$('#custom_input').val('');
+							$('#result').css('display','none')
+							}
+	                    else if ($(".language-picker").val() == 'select')
+                            { loadSample(MODES[0]);
+							
+                            $('#custom_input').css('display','none');
+							$('#custom_input').val('');
+							$('#result').css('display','none')
+							}
+                        
+
+
+
+	                });
+
+	                $(".theme-picker").change(function () {
+	                    changeTheme(this.selectedIndex);
+	                });
+
+	               
+
+	               
+	            });
+
+	            window.onresize = function () {
+	                if (editor) {
+	                    editor.layout();
+	                }
+	               
+	            };
+	        });
+
+	        var preloaded = {};
+	        (function () {
+	            var elements = Array.prototype.slice.call(document.querySelectorAll('pre[data-preload]'), 0);
+
+	            elements.forEach(function (el) {
+	                var path = el.getAttribute('data-preload');
+	                preloaded[path] = el.innerText || el.textContent;
+	                el.parentNode.removeChild(el);
+	            });
+	        })();
+
+	        function xhr(url, cb) {
+	            if (preloaded[url]) {
+	                return cb(null, preloaded[url]);
+	            }
+	            $.ajax({
+	                type: 'GET',
+	                url: url,
+	                dataType: 'text',
+	                error: function () {
+	                    cb(this, null);
+	                }
+	            }).done(function (data) {
+	                cb(null, data);
+	            });
+	        }
+
+function loadSample(mode) {
+	$('.loading.editor').show();
+	xhr(mode.sampleURL, function(err, data) {
+		if (err) {
+			if (editor) {
+				if (editor.getModel()) {
+					editor.getModel().dispose();
+				}
+				editor.dispose();
+				editor = null;
+			}
+			$('.loading.editor').fadeOut({ duration: 200 });
+			$('#editor').empty();
+			$('#editor').append('<p class="alert alert-error">Select a language to code</p>');
+			return;
+		}
+
+		if (!editor) {
+			$('#editor').empty();
+			editor = monaco.editor.create(document.getElementById('editor'), {
+				model: null,
+			});
+		}
+
+		var oldModel = editor.getModel();
+		var newModel = monaco.editor.createModel(data, mode.modeId);
+		editor.setModel(newModel);
+		if (oldModel) {
+			oldModel.dispose();
+		}
+		$('.loading.editor').fadeOut({ duration: 300 });
+	})
+}
+
+	        
+	        function changeTheme(theme) {
+	            var newTheme = (theme === 1 ? 'vs-dark' : (theme === 0 ? 'vs' : 'hc-black'));
+	            monaco.editor.setTheme(newTheme);
+	        }
+	    </script>
+</body>

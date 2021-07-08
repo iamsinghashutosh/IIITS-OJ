@@ -1,0 +1,663 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>IIITS-OJ</title>
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">   
+    <link rel="shortcut icon" href="favicon.ico">  
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <!-- FontAwesome JS -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <!-- Global CSS -->
+    <link rel="stylesheet" href="{% static 'home/bootstrap.min.css' %}">   
+    <!-- Theme CSS -->  
+    <link id="theme-style" rel="stylesheet" href="{% static 'home/styles.css' %}">
+    
+</head> 
+
+<body>
+ 
+
+
+
+    <!-- ******HEADER****** --> 
+    <header id="header" class="header">  
+         
+            <h1 class="logo">
+                <a class="scrollto" href="#hero">
+                    <span class="logo-icon-wrapper"><img class="logo-icon" src="{% static 'home/logo-icon.svg' %}" alt="icon"></span>
+                    <span class="text"><span class="highlight">IIITS</span>-OJ</span></a>
+            </h1><!--//logo-->
+            <nav class="main-nav navbar-expand-md float-right navbar-inverse" role="navigation">
+                
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button><!--//nav-toggle-->
+
+               
+                
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+               
+                   
+                    <ul class="nav navbar-nav">
+
+                    
+                  
+                         
+                        <li class="nav-item"><a class="active nav-link scrollto" href="#about">About</a></li>
+                        <li class="nav-item"><a class="nav-link scrollto" href="#features">Features</a></li>                       
+                        <li class="nav-item"><a class="nav-link scrollto" href="#team">Team</a></li>
+                        <li class="nav-item"><a class="nav-link scrollto" href="#reviews">Reviews</a></li>
+                        <li class="nav-item"><a class="nav-link scrollto" href="#contact">Contact</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'judge' %}">Judge</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'ide'%}">IDE</a><li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'blog-home' %}">Discuss</a></li>
+
+                        {% if user.is_authenticated %}
+                       <li class="nav-item"><a class="nav-link" href="{% url 'profile' %}">Profile</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li> 
+    
+                        
+                        
+
+
+                        {% else %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'login' %}?next={{request.path}}">Login</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'register' %}">Register</a></li>
+                        {% endif %}
+                    </ul>
+                    
+                   
+
+                    <!--//nav-->
+                </div><!--//navabr-collapse-->
+            </nav><!--//main-nav-->                     
+        <!--//container-->
+    </header><!--//header-->
+    
+    <div id="hero" class="hero-section">
+        
+        <div id="hero-carousel" class="hero-carousel carousel carousel-fade slide" data-ride="carousel" data-interval="10000">
+            
+            <div class="figure-holder-wrapper">
+        		<div class="container">
+            		<div class="row justify-content-end">
+                		<div class="figure-holder">
+                	        <img class="figure-image img-fluid" src="{% static 'home/imac.png'%}" alt="image" />
+                        </div><!--//figure-holder-->
+            		</div><!--//row-->
+        		</div><!--//container-->
+    		</div><!--//figure-holder-wrapper-->
+            
+			<!-- Indicators -->
+			<ol class="carousel-indicators">
+				<li class="active" data-slide-to="0" data-target="#hero-carousel"></li>
+				<li data-slide-to="1" data-target="#hero-carousel"></li>
+				<li data-slide-to="2" data-target="#hero-carousel"></li>
+			</ol>
+			
+			<!-- Wrapper for slides -->
+			<div class="carousel-inner">
+    			
+				<div class="carousel-item item-1 active">
+					<div class="item-content container">
+    					<div class="item-content-inner">
+    				        
+				            <h2 class="heading">IIITS-OJ - A Platform for Aspiring Programmers <br class="d-none d-md-block">and geeks</h2>
+				            <p class="intro">Created as a platform to help programmers make it big in the world of algorithms, computer programming, and programming contests</p>
+				            <a class="btn btn-primary btn-cta" href="{% url 'judge' %}">Start Coding</a>
+    				        
+    					</div><!--//item-content-inner-->
+					</div><!--//item-content-->
+				</div><!--//item-->
+				
+				<div class="carousel-item item-2">
+					<div class="item-content container">
+						<div class="item-content-inner">
+    				        
+				            <h2 class="heading">Execute your ideas faster</h2>
+				            <p class="intro">Stop wasting time setting up a development environment. IIITS-OJ gives you an instant IDE to learn, build, and host all in one place.</p>
+				            <a class="btn btn-primary btn-cta" href="{ url 'ide'}" >Goto IDE</a>
+    				        
+    					</div><!--//item-content-inner-->
+					</div>
+				</div><!--//item-->
+				
+				<div class="carousel-item item-3">
+					<div class="item-content container">
+						<div class="item-content-inner">
+    				        
+				            <h2 class="heading">Find information fast.</h2>
+				            <p class="intro">Empower your knowledge with community for information sharing</p>
+				            <a class="btn btn-primary btn-cta" href="{% url 'blog-home' %}">Blog section</a>
+    				        
+    					</div><!--//item-content-inner-->
+					</div>
+				</div><!--//item-->
+			</div><!--//carousel-inner-->
+
+		</div><!--//carousel-->
+    </div><!--//hero-->
+    
+    <div id="about" class="about-section">
+        <div class="container text-center">
+            <h2 class="section-title">Why Use IIITS-OJ?</h2>
+            <p class="intro">Our site uses modern front-end technologies and is packed with useful components and widgets to speed up learning and practicing time </p>
+            <h2 class="section-title">Supported languages</h2>
+            <ul class="technologies list-inline">
+
+                <li class="list-inline-item"><img style="height:70px;width:70px" src="{% static 'home/logo-c.svg'%}" alt="C"></li>
+                <li class="list-inline-item"><img style="height:70px;width:70px" src="{% static 'home/logo-cpp.svg'%}" alt="C++"></li>
+                <li class="list-inline-item"><img style="height:70px;width:70px" src="{% static 'home/logo-java.svg'%}" alt="JAVA"></li>
+                <li class="list-inline-item"><img style="height:70px;width:70px" src="{% static 'home/logo-python.svg'%}" alt="PYTHON3"></li>                
+            </ul>
+            
+            <div class="items-wrapper row">
+                <div class="item col-md-4 col-12">
+                    <div class="item-inner">
+                        <div class="figure-holder">
+                            <img class="figure-image" src="{% static 'home/figure-1.png'%}" alt="image">
+                        </div><!--//figure-holder-->
+                        <h3 class="item-title">Refined problems</h3>
+                        <div class="item-desc">
+                            Our aim is to provide programmers with set of quality problems. Problems are uploaded by our experts form top MNCs.
+                        </div><!--//item-desc-->
+                    </div><!--//item-inner-->
+                </div><!--//item-->
+                <div class="item col-md-4 col-12">
+                    <div class="item-inner">
+                        <div class="figure-holder">
+                            <img class="figure-image" src="{% static 'home/figure-2.png'%}" alt="image">
+                        </div><!--//figure-holder-->
+                        <h3 class="item-title">Live Coding events</h3>
+                        <div class="item-desc">
+                            Preparing for coding contests were never this much fun! Receive points, and move up through the IIITS-OJ ranks.The events have customised ranking systems</div><!--//item-desc-->
+                    </div><!--//item-inner-->
+                </div><!--//item-->
+                <div class="item col-md-4 col-12">
+                    <div class="item-inner">
+                        <div class="figure-holder">
+                            <img class="figure-image" src="{% static 'home/figure-3.png'%}" alt="image">
+                        </div><!--//figure-holder-->
+                        <h3 class="item-title">Fully responsive</h3>
+                        <div class="item-desc">
+                            Our site uses modern front-end technologies which let it run flawlessly on any of the devices, be it smartphone, tablet, iPad or other computing device </div><!--//item-desc-->
+                    </div><!--//item-inner-->
+                </div><!--//item-->
+            </div><!--//items-wrapper-->
+        </div><!--//container-->
+    </div><!--//about-section-->
+
+   <div id="features" class="features-section">
+        <div class="container text-center">
+            <h2 class="section-title">Discover Features</h2>
+            <p class="intro">Here is the list of platform features. The screenshots used here were taken from </p>
+            
+            <div class="tabbed-area row">
+                
+                <!-- Nav tabs -->
+                <div class="feature-nav nav nav-pill flex-column col-lg-4 col-md-6 col-12 order-0 order-md-1" role="tablist" aria-orientation="vertical">
+                     <a class="nav-link active mb-lg-3" href="#feature-1" aria-controls="feature-1" data-toggle="pill" role="tab" aria-selected="true"><i class="fas fa-file-code mr-2"></i>Feature 1 - Verified Problems</a>
+                     <a class="nav-link mb-lg-3" href="#feature-2" aria-controls="feature-2" data-toggle="pill" role="tab" aria-selected="false"><i class="fab fa-microsoft mr-2"></i>Feature 2 - IDE - Similar to VS Code</a>
+                     <a class="nav-link mb-lg-3" href="#feature-3" aria-controls="feature-3" data-toggle="pill" role="tab" aria-selected="false"><i class="fas fa-sign-in-alt mr-2"></i>Feature 3 - Hassle free Submissions</a>
+                     <a class="nav-link mb-lg-3" href="#feature-4" aria-controls="feature-4" data-toggle="pill" role="tab" aria-selected="false"><i class="fas fa-globe-asia mr-2"></i>Feature 4 - Information Exchange</a>
+
+                     <a class="nav-link mb-lg-3" href="#feature-6" aria-controls="feature-6" data-toggle="pill" role="tab" aria-selected="false"><i class="fas fa-mobile-alt mr-2"></i> Feature 5 - Responsive</a>
+                     <a class="nav-link mb-lg-3" href="#feature-7" aria-controls="feature-7" data-toggle="pill" role="tab" aria-selected="false"><i class="fas fa-users mr-2"></i>Feature 6 - Detailed User Info.</a>
+                     <a class="nav-link mb-lg-3" href="#feature-8" aria-controls="feature-8" data-toggle="pill" role="tab" aria-selected="false"><i class="fas fa-chart-bar mr-2"></i>Feature 7 - Contest History Info.</a>                   
+                </div>
+                
+                <!-- Tab panes -->
+                <div class="feature-content tab-content col-lg-8 col-md-6 col-12 order-1 order-md-0">
+                    <div role="tabpanel" class="tab-pane fade show active" id="feature-1">
+                        <a href="#" target="_blank"><img class="img-fluid" src="{% static 'home/feature-1.png'%}" alt="screenshot" ></a>
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="feature-2">
+                        <a href="#" target="_blank"><img class="img-fluid" src="{% static 'home/feature-2.png'%}" alt="screenshot" ></a>
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="feature-3">
+                        <a href="#" target="_blank"><img class="img-fluid" src="{% static 'home/feature-3.png'%}" alt="screenshot" ></a>
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="feature-4">
+                        <a href="#" target="_blank"><img class="img-fluid" src="{% static 'home/feature-4.png'%}" alt="screenshot" ></a>
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="feature-5">
+                        <a href="#" target="_blank"><img class="img-fluid" src="{% static 'home/feature-5.png'%}" alt="screenshot" ></a>
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="feature-6">
+                        <a href="#" target="_blank"><img class="img-fluid" src="{% static 'home/feature-6.png'%}" alt="screenshot" ></a>
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="feature-7">
+                        <a href="#" target="_blank"><img class="img-fluid" src="{% static 'home/feature-7.png'%}" alt="screenshot" ></a>
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="feature-8">
+                        <a href="#" target="_blank"><img class="img-fluid" src="{% static 'home/feature-8.png'%}" alt="screenshot" ></a>
+                    </div>
+                    
+                </div><!--//feature-content-->
+
+                
+            </div><!--//tabbed-area-->
+            
+        </div><!--//container-->
+    </div><!--//features-->
+    
+
+
+
+    
+   
+    
+    
+    <div class="team-section" id="team">
+        <div class="text-center">
+            <h2 class="section-title">Our Team</h2>
+            <div class="story">
+              <p>In the era of tremendous competition, people exert themselves to seek the best. The purpose of this project is to prune the extra effort they put. And in order to accomplish the goal, we overcame all the struggles that came upon and completed the task. The credit completely goes to the professionalism and ever learning mindset of our proficient team members. We acknowledge.......</p>
+                 </div>
+            <div class="members-wrapper row">
+                <div class="item col-md-2 col-12 offset-md-1">
+                    <div class="item-inner">
+                        <div class="profile mb-2">
+                            <img class="profile-image" src="{% static 'home/team-1.png'%}" alt="Anunay Alok" />
+                        </div>
+                        
+                        <div class="member-content">
+                            <h3 class="member-name">Anunay Alok</h3>
+                            <div class="member-title">DSA Enthusiast</div>
+                            <ul class="social list-inline">
+                                <li class="list-inline-item"><a class="google" href="https://www.hackerrank.com/S20180010015" target="_blank"><i class="fab fa-hackerrank"></i></a></li>
+                                
+                                <li class="list-inline-item"><a class="facebook" href="https://www.codechef.com/users/anunay_alok" target="_blank"><i class="fa fa-laptop-code"></i></a></li>
+                                <li class="list-inline-item"><a class="github" href="https://github.com/Anunay-Alok" target="_blank"><i class="fab fa-github"></i></a></li>
+
+                                
+                            </ul>
+                            <div class="member-desc">
+                              <p>He is actively participating in contests hosted on platforms like codechef, hackerrank and hackerearth. Being logically strong, his task was most of the testing part apart from coding a part of our project's backend development. </p>
+                             </div><!--//member-desc-->
+                        </div><!--//member-content-->
+                    </div><!--//item-inner-->
+                </div><!--//item-->
+
+                 <div class="item col-md-2 col-12">
+                    <div class="item-inner ">
+                        <div class="profile mb-2">
+                            <img class="profile-image" src="{% static 'home/team-2.png'%}" alt="Ashutosh Singh" />
+                        </div>
+                        
+                        <div class="member-content">
+                            <h3 class="member-name">Ashutosh Singh</h3>
+                            <div class="member-title">Front-End Designer</div>
+                            <ul class="social list-inline">
+                                <li class="list-inline-item"><a class="globe" href=" https://iamsinghashutosh.github.io/Resume/" target="_blank"><i class="fa fa-globe"></i></a></li>
+                                
+                                <li class="list-inline-item"><a class="google" href="https://gmail.com/sashutosh705@gmail.com" target="_blank"><i class="fab fa-google"></i></a></li>
+                                <li class="list-inline-item"><a class="github" href=" https://github.com/iamsinghashutosh" target="_blank"><i class="fab fa-github"></i></a></li>
+
+                                
+                            </ul>
+                            <div class="member-desc">
+                             <p>He is an ace developer excelled in cutting-edge front-end technologies such as 
+Facebook's React Library and Jquery.He is responsible for designing the structure of the website
+and front-end for some parts of the web-site.</p>
+                              </div><!--//member-desc-->
+                        </div><!--//member-content-->
+                    </div><!--//item-inner-->
+                </div><!--//item-->
+
+                 <div class="item col-md-2 col-12">
+                    <div class="item-inner">
+                        <div class="profile mb-2">
+                            <img class="profile-image" src="{% static 'home/team-3.png'%}" alt="Chandan Kumar Roy" />
+                        </div>
+                        
+                        <div class="member-content">
+                            <h3 class="member-name">Chandan Roy</h3>
+                            <div class="member-title">Data scientist</div>
+                            <ul class="social list-inline">
+                                
+                                <li class="list-inline-item"><a class="linkedin" href="https://www.linkedin.com/in/chandan5362/" target="_blank"><i class="fab fa-linkedin"></i></a></li>
+                                <li class="list-inline-item"><a class="github" href="https://github.com/chandan5362" target="_blank"><i class="fab fa-github"></i></a></li>
+
+                                
+                            </ul>
+                            <div class="member-desc">
+                            <p>He is a young and innovative data scientist.
+He has keen interests in Machine Learning and Deep learning.
+He has helped as an algorithm expert while designing this prototype and has supported the team as a leader and a mentor.</p>
+                             </div><!--//member-desc-->
+                        </div><!--//member-content-->
+                    </div><!--//item-inner-->
+                </div><!--//item-->
+
+                 <div class="item col-md-2 col-12">
+                    <div class="item-inner">
+                        <div class="profile mb-2">
+                            <img class="profile-image" src="{% static 'home/team-4.png'%}" alt="Ankit Kumar" />
+                        </div>
+                        
+                        <div class="member-content">
+                            <h3 class="member-name">Ankit Kumar</h3>
+                            <div class="member-title">Backend engineer</div>
+                            <ul class="social list-inline">
+                                <li class="list-inline-item"><a class="linkedin" href="https://www.linkedin.com/mwlite/in/ankit-kumar-618367165" target="_blank"><i class="fab fa-linkedin"></i></a></li>
+                                
+                                <li class="list-inline-item"><a class="globe" href="https://codeforces.com/profile/ZEFFERSKIOICH" target="_blank"><i class="fa fa-code"></i></a></li>
+
+                                
+                            </ul>
+                            <div class="member-desc">
+                            <p>He Designs and implement scalable, highly available software services in Python. He achieved mastery in the feild of networking. A professional linux IT-expert and Machine learning enthusiast<p>
+                            </div><!--//member-desc-->
+                        </div><!--//member-content-->
+                    </div><!--//item-inner-->
+                </div><!--//item-->
+
+                
+
+                <div class="item col-md-2 col-12">
+                    <div class="item-inner">
+                        <div class="profile mb-2">
+                            <img class="profile-image" src="{% static 'home/team-5.png'%}" alt="Nitin C" />
+                        </div>
+                        
+                        <div class="member-content">
+                            <h3 class="member-name">Nitin Chauhan</h3>
+                            <div class="member-title">Full-Stack Developer</div>
+                            <ul class="social list-inline">
+                                <li class="list-inline-item"><a class="twitter" href="http://twitter.com/nitin48119761" target="_blank"><i class="fab fa-twitter"></i></a></li>
+                                <li class="list-inline-item"><a class="facebook" href="https://www.facebook.com/nitin.chauhan.73744" target="_blank"><i class="fab fa-facebook-f"></i></a></li>
+                                <li class="list-inline-item"><a class="github" href="https://github.com/buntynitin" target="_blank"><i class="fab fa-github"></i></a></li>
+                               
+                                
+                            </ul>
+                            <div class="member-desc">
+                                <p>Nitin is a full-stack developer specialising in building large, scalable and user-friendly web apps. Follow him on <a href="https://twitter.com/nitin48119761" target="_blank">Twitter</a> for fresh developer tips and check out his <a href="https://github.com/buntynitin" target="_blank">Github</a> for useful open-source tools.
+</p>
+                            </div><!--//member-desc-->
+                        </div><!--//member-content-->
+                    </div><!--//item-inner-->
+                </div><!--//item-->
+            </div><!--//members-wrapper-->
+        </div>
+    </div><!--//team-section-->
+
+
+    <div id="reviews" class="testimonials-section">
+        <div class="container">
+            <h2 class="section-title text-center">User Reviews</h2>
+            {% if user.is_authenticated %}
+            <form id="review_form">
+            {% csrf_token %}
+            <div class="item item-reversed mx-auto">
+                <div class="profile-holder">
+                    <img class="profile-image rounded-circle" src="{{ request.user.profile.image.url }}" alt="profile">
+                </div>
+                <div class="quote-holder">
+                    <blockquote class="quote">
+                        <div class="row">
+                            <div class="col-11">
+                                <textarea required id="content" style="background:rgba(0,0,0,0.2);color:white" class="form-control" rows="2"></textarea>
+                            </div>
+                            <div class="col-1 p-3">
+                                <button type="submit"><i style="transform:scale(3)" class="fab fa-telegram"></i></button>
+                            </div>
+                        </div>
+                        <div class="quote-source">
+                            <span class="name">@{{request.user}}</span>
+                           
+                        </div>
+                        <!--//quote-source-->
+                    </blockquote>
+                </div>
+                <!--//quote-holder-->
+            </div>
+            <!--//item-->
+            </form>
+            <!--//form-->
+            {% endif %}
+
+
+            {% for review in reviews %}
+
+
+            {% if forloop.counter|divisibleby:2 %}
+            <div class="item item-reversed mx-auto">
+                {% else %}
+                <div class="item mx-auto">
+                    {% endif %}
+
+                    <div class="profile-holder">
+                        <img class="profile-image rounded-circle" src="{{ review.user.profile.image.url }}" alt="profile">
+                    </div>
+                    <div class="quote-holder">
+                        <blockquote class="quote">
+                            <p>{{review.content|safe}}</p>
+                            <div class="quote-source">
+                                <span class="name">@{{review.user}}</span>
+
+                            </div>
+                            <!--//quote-source-->
+                        </blockquote>
+                    </div>
+                    <!--//quote-holder-->
+                </div>
+                {%endfor%}
+
+
+
+            </div>
+        </div>
+        <!--//container-->
+    </div>
+    <!--//testimonials-->
+
+
+
+
+
+   
+    <div id="contact" class="contact-section">
+        <div class="container text-center">
+            <h2 class="section-title">Contact Us</h2>
+            <div class="contact-content">
+                <p>You are not going to wait ridiculously long when you mail us. Your E-mail is not going to inbox abyss, never to be seen or heard again. At choice IITS-OJ, we provide the exceptional service we'd want to experience ourself.<br><br>Indian Institute of information technology SriCity,Chittor A.P.</p>
+
+            </div>
+            <a class="btn btn-cta btn-primary" id="modalbutton" data-toggle="modal"  data-target="#exampleModalCenter">Get in Touch</a>
+
+        </div>
+        <!--//container-->
+    </div>
+    <!--//contact-section-->
+
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+
+                <form id="contact_form">
+                    {% csrf_token %}
+                    <div class="modal-header" style="background-image: url('../../static/home/contact.svg');">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Contact Us</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="alert alert-success" style="display:none" role="alert">
+                        Your mesage has been Sent
+                    </div>
+                    <div class="alert alert-danger" style="display:none" role="alert">
+                        Message not Sent, Try again later
+                    </div>
+                    <div class="modal-body p-0">
+
+
+
+
+
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="form_name">Firstname</label>
+                                        <input id="form_name" type="text" name="name" class="form-control"
+                                            required="required">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="form_lastname">Lastname</label>
+                                        <input id="form_lastname" type="text" name="surname" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="form_email">Email</label>
+                                        <input id="form_email" type="email" name="email" class="form-control"
+                                            required="required">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="form_need">Please specify Subject</label>
+                                        <select id="form_need" name="need" class="form-control" required="required">
+                                            <option value=""></option>
+                                            <option value="Issue in Problem">Issue in Problems</option>
+                                            <option value="Compiler releated issue">Compiler releated issue</option>
+                                            <option value="Request a feature">Request a feature</option>
+                                            <option value="Other">Other</option>
+                                        </select>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="form_message">Message</label>
+                                        <textarea id="form_message" name="message" class="form-control" rows="4"
+                                            required="required"></textarea>
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+
+
+                        </div>
+
+                        <div class="modal-footer"
+                            style="background-image: url('../../static/home/contact.svg');transform:rotate(180deg)">
+
+                            <button type="submit" id="formsubmitbutton" style="transform:rotate(180deg)"
+                                class="btn btn-cta btn-primary">
+                                Send<div style="display:none" class="spinner-border" role="status"></div>
+                            </button>
+
+                        </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>
+
+   <footer class="footer text-center">
+        <div class="container">
+            <!--/* This template is released under the Creative Commons Attribution 3.0 License. Please keep the attribution link below when using for your own project. Thank you for your support. :) If you'd like to use the template without the attribution, you can buy the commercial license via our website: themes.3rdwavemedia.com */-->
+            <small class="copyright">Developed with <i class="fas fa-heart"></i> by <a class="scrollto" href="#team">Group-6</a> members</small>
+            
+            
+        </div><!--//container-->
+    </footer>
+
+
+
+     
+    <!-- Javascript -->         
+
+    <script type="text/javascript" src="{% static 'home/jquery-3.3.1.min.js'%}"></script>
+        <script>
+
+
+   
+
+
+    $(document).on('submit','#review_form',function(e){
+  e.preventDefault();
+  if($.trim($("#content").val()) === "")
+    return;
+  $.ajax({
+      type:'post',
+      url:'savereview/',
+      data:{
+          content:$('#content').val(),
+          csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
+      },
+      success:function()
+      {
+          location.reload();
+          
+         
+           
+      }
+
+  });
+});
+
+ $("#modalbutton").on("click", function() {
+          $('.modal-body').css('display','block')
+          $('.alert-success').css('display','none')
+          $('.alert-danger').css('display','none')
+          $('#contact_form')[0].reset();
+    
+});
+
+ $(document).on('submit','#contact_form',function(e){
+  e.preventDefault();
+  if($.trim($("#form_message").val()) === "")
+    return;
+  $('.spinner-border').css('display','block')
+  $.ajax({
+      type:'post',
+      url:'sendmail/',
+      data:{
+             email:$('#form_email').val(),
+             csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
+      },
+      success:function()
+      {
+          $('.spinner-border').css('display','none')
+          $('.modal-body').css('display','none')
+          $('.alert-success').css('display','block')
+      }, 
+      error: function(){
+           $('.spinner-border').css('display','none')
+          $('.modal-body').css('display','none')
+          $('.alert-danger').css('display','block')
+    
+    }
+      
+
+  });
+});
+
+
+    </script> 
+    <script type="text/javascript" src="{% static 'home/bootstrap.min.js'%}"></script>
+    <script type="text/javascript" src="{% static 'home/jquery.scrollTo.min.js'%}"></script>     
+    <script type="text/javascript" src="{% static 'home/main.js'%}"></script> 
+       
+</body>
+</html> 
+

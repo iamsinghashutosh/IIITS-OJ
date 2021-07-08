@@ -1,0 +1,125 @@
+{% extends "judge/base.html" %}
+{% block content %}
+<link href="/static/froala_editor/css/froala_style.min.css" type="text/css" media="all" rel="stylesheet">
+<main role="main" class="container">
+    <div class="row">
+      <div class="col-md-8">
+      <center><h3>{{problem.title}}</h3></center>
+  <center>
+  {% for tag in problem.problem_tags_set.all %}
+  #{{tag}}
+  {% endfor %}
+  </center><br><hr>
+  <div class="fr-view">
+ {{ problem.statement | safe }}
+</div>
+<hr>
+  <h4>Input</h4>
+  <p class=" card-text article-content">{{problem.input_format}}</p><hr>
+   <h4>Output</h4>
+  <p class=" card-text article-content">{{problem.output_format}}</p><hr>
+     <h4>Constraints</h4>
+  <div class="fr-view">
+ {{ problem.constraint | safe }}
+   </div><hr>
+  <h4>Example Input</h4>
+  <div class="card bg-dark mb-3" style="max-width: 100%%;">
+  <div class="card-body">
+    <p style="font-family:Courier New;color:lime" class="card-text article-content">{{problem.sample_input}}</p>
+  </div>
+</div><hr>
+<h4>Example Output</h4>
+  <div class="card bg-dark mb-3" style="max-width: 100%%;">
+  <div class="card-body">
+    <p style="font-family:Courier New;color:lime" class="card-text article-content">{{problem.sample_output}}</p>
+  </div>
+</div><hr>
+      
+      <h4>Explaination</h4>
+  <p class=" card-text article-content">{{problem.explaination}}</p><hr>
+
+   <center>
+   <br>
+   <a href="submit/"><button class="btn btn-secondary">Submit</button></a>
+   <div style="margin-bottom:20px">
+      </div>
+   
+   </center>
+
+        
+        
+      </div>
+      
+      <div style="margin-top:100px" class="col-md-4" >
+      <div class="content-section">
+       <div class="row">
+      <div  class="col-6">
+      <p>Author:</p>
+      <p>Date added:</p>
+      <p>Time limit:</p>
+      <p>Difficulty:</p>
+      <p>Submissions:</p>
+      <p>Accuracy:</p>
+      <p>Memory:</p>
+      <p>Languages:</p>
+      </div>
+      <div class="col-6">
+      <p>{{problem.auth}}</p>
+      <p>{{problem.date_added|date:"F d, Y"}}</p>
+      <p>{{problem.time_limit}}sec.</p>
+      <p>{{problem.difficulty}}</p>
+      <p>{{ problem.problem_feature.total_submission }}</p>
+      <p class="card-text mb-1"><div class="progress">
+      <div class="progress-bar" role="progressbar" style="color:black; width: {{ problem.problem_feature.accuracy }}%;" aria-valuenow="{{ problem.problem_feature.accuracy }}" aria-valuemin="0" aria-valuemax="100">{{ problem.problem_feature.accuracy }}%</div>
+      </div><br>
+      <p>256 MB</p>
+      <p>C ,C++ ,JAVA<br>PYTHON3</p>
+      </div>
+
+     </div>
+     </div>
+
+     <div class="content-section">
+     <h5>Successful Submissions</h5>
+          <small class='text-muted'>Recent successful submissions will appear here</small>
+       <div class="shadow-lg p-3  bg-white rounded">
+       <div class="row" >
+       <div class="col-4">User</div>
+       <div class="col-4">Time</div>
+       <div class="col-4">Lang</div>
+     </div>
+       <hr>
+       {% if solutions %}
+       {% for solution in solutions %}
+       {% if solution.result.verdict == 'ac' %}
+       
+       <div class="row" >
+       <div class="col-4">{{solution.usr}}</div>
+       <div class="col-4">{{solution.result.time}}s</div>
+       <div class="col-4">{{solution.language}}</div>
+       </div>
+      
+       {% endif %}
+       {% endfor %}
+       {% else %}
+       <p>No accepted solutions yet</p>
+       {% endif %}
+       
+     </div>
+
+
+     </div>
+
+  
+        
+        </div> 
+      </div>
+    </div>
+  </main>
+
+
+
+
+
+  
+{% endblock content %}

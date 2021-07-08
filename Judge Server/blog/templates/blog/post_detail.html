@@ -1,0 +1,225 @@
+{% extends "blog/base.html" %}
+
+{% block content %}
+<link href="/static/froala_editor/css/froala_style.min.css" type="text/css" media="all" rel="stylesheet">
+    <article class="media content-section">
+        <img class="rounded-circle article-img" src="{{ object.author.profile.image.url }}">
+        <div class="media-body">
+          <div class="article-metadata">
+            <a class="mr-2" href="{% url 'user-posts' object.author.username %}">{{ object.author }}</a>
+            <small class="text-muted">{{ object.date_posted|date:"F d, Y"}}</small>
+            {% if object.author == user %}
+            <div>
+                <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'post-update' object.id %}">Update</a>
+                <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'post-delete' object.id %}">Delete</a>
+            </div>
+            {% endif %}
+          </div>
+          <h2 class="article-title" >{{ object.title }}</h2>
+          <div  class="fr-view">
+          {{ object.content | safe }}
+          </div>
+          
+          </div>
+          
+          </article>
+
+          
+          
+       
+     
+
+
+
+<div class="mydiv">
+{% for comment in object.comment_set.all %}
+<div class="container mb-3 " >
+  <div class="row">
+    <div class="col-1">
+     
+         
+          {% if user.is_authenticated %}
+          
+          {% if request.user not in comment.user_reaction.all %}
+          <form id="upvote_form{{comment.id}}">
+
+          <button style="background:transparent;border: none !important;text-decoration:none;border:0;outline:none;margin-top:1.5rem" type="submit" ><i style=" cursor: pointer; color:gray;transform:scale(3);" class="fa fa-sort-up" aria-hidden="true"></i></button>
+          {% comment %} <button type="submit"><i style=" cursor: pointer; color:gray;transform:scale(3);margin-top:1.5rem" class="fa fa-sort-up" aria-hidden="true"></i></button> {% endcomment %}
+          </form>
+         <p style="font-size:2.5vw;" >{{ comment.vote }}</p>
+          <form id="downvotevote_form{{comment.id}}">
+          <button  type="submit" style="background:transparent;border: none !important;text-decoration:none;border:0;outline:none;"><i style="cursor: pointer; color:gray;transform:scale(3);" class="fa fa-sort-down" aria-hidden="true"></i></button>
+          {% comment %} <button type="submit" ><i style=" cursor: pointer; color:gray;transform:scale(3);" class="fa fa-sort-down" aria-hidden="true"></i></button> {% endcomment %}
+          </form>
+          <script>
+
+  $(document).on('submit','#upvote_form{{comment.id}}',function(e){
+  e.preventDefault();
+  $.ajax({
+      type:'post',
+      url:'upvote/',
+      data:{
+          comment_id:{{comment.id}}
+      
+      },
+      success:function()
+      {
+          location.reload();
+         
+           
+      }
+
+  });
+}); 
+
+$(document).on('submit','#downvotevote_form{{comment.id}}',function(e){
+  e.preventDefault();
+  $.ajax({
+      type:'post',
+      url:'downvote/',
+      data:{
+          comment_id:{{comment.id}}
+      },
+      success:function()
+      {
+          location.reload();
+         
+           
+      }
+
+  });
+}); 
+
+          </script>
+
+          <br>
+          {% else %}
+          <i style="transform:scale(1.3);margin-top:1.5rem;color:green;" class=" ml-1 fas fa-check"></i>
+            {% comment %} <i style="transform:scale(1.3);margin-top:1.5rem;color:green" class=" ml-1 material-icons">check</i> {% endcomment %}
+           <small>voted</small>
+           <p style="font-size:2.5vw;">{{ comment.vote }}</p>
+          {% endif %}
+          {%else%}
+        <a data-toggle="modal" data-target="#exampleModalCenter"><i style=" cursor: pointer; color:gray;transform:scale(3);margin-top:1.5rem" class="fa fa-sort-up" aria-hidden="true"></i></a>
+          <br>
+          <p style="font-size:2.5vw;">{{ comment.vote }}</p>
+          <a data-toggle="modal" data-target="#exampleModalCenter"><i style=" cursor: pointer; color:gray;transform:scale(3);" class="fa fa-sort-down" aria-hidden="true"></i></a>
+          <br>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        You must login first !
+      </div>
+      <div class="modal-footer">
+        
+        <a href="{% url 'login' %}"><button type="button" class="btn btn-primary">Login</button></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+          {% endif %}
+      
+    </div>
+    
+    <div class="col-11">
+      <div class="card">
+  <div class="card-header">
+     <img class="rounded-circle article-img" src="{{ comment.usr.profile.image.url }}">
+     <a class="mr-2" href="{% url 'user-posts' comment.usr.username %}">{{ comment.usr }}</a>
+     <small class="text-muted">{{ comment.date_commented|date:"F d, Y"}}</small>
+        {% if user.is_authenticated %}
+        {% if request.user == comment.usr or request.user == object.author%}
+          <a  data-toggle="modal" data-target="#exampleModalCenter1" class="btn btn-outline-danger btn-sm mt-1 mb-1">Delete</a>
+       <!-- Modal -->
+<div class="modal fade" id="exampleModalCenter1" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+         Are you sure you want to delete this comment
+      </div>
+      <div class="modal-footer">
+        
+        <a class="btn btn-danger" href="delete/{{ comment.id }}">Delete</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+         {% endif %}
+        {% endif %}
+        
+  </div>
+  <div class="card-body">
+   
+    <p class=" card-text article-content">{{ comment.text }}</p>
+    
+  </div>
+</div>
+    </div>
+  </div>
+</div>
+
+      {% endfor%}
+
+</div>
+
+  
+
+
+      {% if user.is_authenticated %}
+        
+      <div class="container mb-3" >
+     <div class="row">
+    <div class="col-1"></div>
+      <div class="col-11 ">
+ 
+        <form id="comment_form">
+           {% csrf_token %}
+           <fieldset class="form-group">
+               <input type="hidden" id="objID" value={{object.id}}>
+              <textarea autocomplete="off" class="form-control" rows="5" id="comment" placeholder="New Comment" id="comment" required></textarea>
+           </fieldset>
+           <div class="form-group">
+            <button class="btn btn-outline-info" type="submit">Comment</button>
+           </div>
+
+        </form> 
+   </div>
+
+    </div>
+    
+    </div>
+
+      {% endif %}
+
+
+
+{% endblock content %}
+
+
+
+  
+
+
+
+
+
+

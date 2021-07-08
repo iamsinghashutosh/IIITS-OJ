@@ -1,0 +1,94 @@
+{% extends "judge/base.html" %}
+{% block content %}
+
+<main role="main" class="container">
+    <div class="row">
+      <div class="col-md-10 offset-md-1">
+  {% if messages %}
+        {% for message in messages %}
+           <div class="alert alert-secondary">
+             {{message}}
+           </div>
+        {% endfor %}
+   {% endif %}
+  <div class="row">
+  <div class="col-1 " style="font-size:10px"><center>RANK</center></div>
+  <div class="col-3" style="font-size:10px"><center>NAME</center></div>
+  <div class="col-2" style="font-size:10px"><center>RATING</center></div>
+  <div class="col-2" style="font-size:10px"><center>HIGHEST RATING</center></div>
+  <div class="col-4" style="font-size:10px"><center>JOINED ON</center></div>
+ 
+  </div>
+  <hr>
+
+   {% for usr in users %}
+ 
+
+ <div class="shadow-lg p-3 mb-2 bg-white rounded">
+  <div class="row">
+    <div class="col-1" id="usr{{forloop.counter}}"></div>
+<script>
+ 
+     $('#usr{{forloop.counter}}').html($.urlParam('page')*10+{{ forloop.counter }}-10);
+  </script>
+  {% if usr.star == 1 %}
+  <div class="col-3"><center><a href="{% url 'user-info' usr.user %}"> <span class="badge badge-secondary">1<span class="fa fa-star"></span></span>{{usr.user}}</a></center></div>
+
+  {% elif usr.star == 2 %}
+  <div class="col-3"><center><a href="{% url 'user-info' usr.user %}"> <span class="badge badge-success">2<span class="fa fa-star"></span></span>{{usr.user}}</a></center></div>
+
+  {% elif usr.star == 3 %}
+  <div class="col-3"><center><a href="{% url 'user-info' usr.user %}"><span class="badge badge-info">3<span class="fa fa-star"></span></span>{{usr.user}}</a></center></div>
+
+    {% elif usr.star == 4 %}
+  <div class="col-3"><center><a href="{% url 'user-info' usr.user %}"><span style="color:white" class="badge badge-warning">4<span class="fa fa-star"></span></span>{{usr.user}}</a></center></div>
+
+   {% elif usr.star == 5 %}
+  <div class="col-3"><center><a href="{% url 'user-info' usr.user %}"> <span class="badge badge-danger">5<span class="fa fa-star"></span></span>{{usr.user}}</a></center></div>
+  {% endif %}
+
+  <div class="col-2"><center><p>{{usr.rating}}</p></center></div>
+  <div class="col-2"><center><p>{{usr.hrating}}</p></center></div>
+  <div class="col-4"><center><p>{{usr.user.date_joined | date:"F d, Y"}}</p></center></div>
+  </div>
+  </div>
+  
+
+   {% endfor %}
+<hr>
+
+    {% if is_paginated %}
+       {% if page_obj.has_previous %}
+       <a class="btn btn-outline-dark mb-4" href="?page=1" >First</a>
+       <a class="btn btn-outline-dark mb-4" href="?page={{ page_obj.previous_page_number }}" >&laquo;</a>
+       {% endif %}
+
+       {% for num in page_obj.paginator.page_range %}
+           {% if page_obj.number == num %}
+           <a class="disabled btn btn-dark mb-4" href="?page={{ num }}" >{{num}}</a>
+           {% elif num > page_obj.number|add:'-3' and  num < page_obj.number|add:'3' %}
+           <a class="btn btn-outline-dark mb-4" href="?page={{ num }}" >{{num}}</a>
+           {% endif %}
+       {% endfor %}
+
+       {% if page_obj.has_next %}
+       <a class="btn btn-outline-dark mb-4" href="?page={{page_obj.next_page_number}}" >&raquo;</a>
+       <a class="btn btn-outline-dark mb-4" href="?page={{ page_obj.paginator.num_pages}}" >Last</a>
+       {% endif %}
+    {% endif %}
+
+
+    
+
+
+	
+    
+ </main>
+
+  
+
+
+
+  
+
+{% endblock content %}

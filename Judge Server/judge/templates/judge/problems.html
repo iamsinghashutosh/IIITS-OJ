@@ -1,0 +1,319 @@
+{% extends "judge/base.html" %}
+{% block content %}
+
+
+<main role="main" class="container">
+    <div class="row">
+      <div class="col-md-9">
+  {% if messages %}
+        {% for message in messages %}
+           <div class="alert alert-secondary">
+             {{message}}
+           </div>
+        {% endfor %}
+   {% endif %}
+  <div class="row">
+  <div class="col-1" style="font-size:10px"><center>#<center></div>
+  <div class="col-3" style="font-size:10px"><center>NAME</center></div>
+  <div class="col-3" style="font-size:10px"><center>TAGS</center></div>
+  <div class="col-1" style="font-size:10px"><center>AUTH</center></div>
+  <div class="col-1" style="font-size:10px"><center>SUB.</center></div>
+  <div class="col-3" style="font-size:10px"><center>ACC%</center></div>
+  </div>
+  <hr>
+
+   {% for problem in problems %}
+ 
+
+ <div class="shadow-lg p-3 mb-2 bg-white rounded">
+  <div class="row">
+
+  <div class="col-1" id="prob{{forloop.counter}}"></div>
+<script>
+ 
+     $('#prob{{forloop.counter}}').html($.urlParam('page')*10+{{ forloop.counter }}-10);
+  </script>
+  {% if problem.difficulty == "Easy" %}
+  <div class="col-3"><a href="{% url 'detail' problem.id %}"><center>{{problem.title}} <span class="badge badge-success">Easy</span></center></a></div>
+
+  {% elif problem.difficulty == "Medium" %}
+  <div class="col-3"><a href="{% url 'detail' problem.id %}"><center>{{problem.title}} <span class="badge badge-info">Medium</span></center></a></div>
+
+    {% elif problem.difficulty == "Hard" %}
+  <div class="col-3"><a href="{% url 'detail' problem.id %}"><center>{{problem.title}} <span class="badge badge-warning">Hard</span></center></a></div>
+
+   {% elif problem.difficulty == "Expert" %}
+  <div class="col-3"><a href="{% url 'detail' problem.id %}"><center>{{problem.title}} <span class="badge badge-danger">Expert</span></center></a></div>
+  {% endif %}
+
+
+  <div class="col-3">
+  
+  <p>
+  <a  data-toggle="collapse" href="#collapseExample{{ forloop.counter }}" role="button" aria-expanded="false" aria-controls="collapseExample">
+   <center><i class="fas fa-list-ul"></i></center>
+
+  </a>
+  </p>
+
+
+<div class="collapse" id="collapseExample{{ forloop.counter }}">
+  <div class="card card-body">
+   {% for tag in problem.problem_tags_set.all %}
+   <p style="font-size:1vw">{{tag}}</p>
+   {%endfor%}
+  </div>
+</div>
+
+</div>
+
+  <div class="col-1"><center>{{problem.auth}}</center></div>
+  <div class="col-1"><center>{{ problem.problem_feature.total_submission }}</center></div>
+  <div class="col-3"> <p class="card-text mb-1"><div class="progress">
+   <div class="progress-bar text-light" role="progressbar" style="color:black; width: {{ problem.problem_feature.accuracy }}%;" aria-valuenow="{{ problem.problem_feature.accuracy }}" aria-valuemin="0" aria-valuemax="100">{{ problem.problem_feature.accuracy }}%</div>
+    </div></div>
+  
+  </div>
+  </div>
+   {% endfor %}
+    {% if is_paginated %}
+       {% if page_obj.has_previous %}
+       <a class="btn btn-outline-dark mb-4" href="?page=1" >First</a>
+       <a class="btn btn-outline-dark mb-4" href="?page={{ page_obj.previous_page_number }}" >&laquo;</a>
+       {% endif %}
+
+       {% for num in page_obj.paginator.page_range %}
+           {% if page_obj.number == num %}
+           <a class="disabled btn btn-dark mb-4" href="?page={{ num }}" >{{num}}</a>
+           {% elif num > page_obj.number|add:'-3' and  num < page_obj.number|add:'3' %}
+           <a class="btn btn-outline-dark mb-4" href="?page={{ num }}" >{{num}}</a>
+           {% endif %}
+       {% endfor %}
+
+       {% if page_obj.has_next %}
+       <a class="btn btn-outline-dark mb-4" href="?page={{page_obj.next_page_number}}" >&raquo;</a>
+       <a class="btn btn-outline-dark mb-4" href="?page={{ page_obj.paginator.num_pages}}" >Last</a>
+       {% endif %}
+    {% endif %}
+
+    {% if file_name %}
+     {% if problems.has_other_pages %}
+    {% if problems.has_previous %}
+      <a class="btn btn-outline-dark mb-4" href="?page=1&file_name={{file_name}}" >First</a>
+      <a class="btn btn-outline-dark mb-4" href="?page={{ problems.previous_page_number }}&file_name={{file_name}}">&laquo;</a>
+    {% endif %}
+
+    {% for i in problems.paginator.page_range %}
+      {% if problems.number == i %}
+        <a class="disabled btn btn-dark mb-4" href="?page={{ i }}&file_name={{file_name}}" >{{ i }}</a>
+        {% elif i > problems.number|add:'-3' and  i < problems.number|add:'3' %}
+        <a class="btn btn-outline-dark mb-4" href="?page={{ i }}&file_name={{file_name}}" >{{i}}</a>
+         {% endif %}
+       {% endfor %}
+
+    {% if problems.has_next %}
+     <a class="btn btn-outline-dark mb-4" href="?page={{ problems.next_page_number }}&file_name={{file_name}}">&raquo;</a>
+     <a class="btn btn-outline-dark mb-4" href="?page={{ page_obj.paginator.num_pages}}&file_name={{file_name}}" >Last</a>
+    {% endif %}
+{% endif %}
+{% endif %}
+
+{% if flag %}
+     {% if problems.has_other_pages %}
+    {% if problems.has_previous %}
+      <a class="btn btn-outline-dark mb-4" href="?page=1" >First</a>
+      <a class="btn btn-outline-dark mb-4" href="?page={{ problems.previous_page_number }}">&laquo;</a>
+    {% endif %}
+
+    {% for i in problems.paginator.page_range %}
+      {% if problems.number == i %}
+        <a class="disabled btn btn-dark mb-4" href="?page={{ i }}" >{{ i }}</a>
+        {% elif i > problems.number|add:'-3' and  i < problems.number|add:'3' %}
+        <a class="btn btn-outline-dark mb-4" href="?page={{ i }}" >{{i}}</a>
+         {% endif %}
+       {% endfor %}
+
+    {% if problems.has_next %}
+     <a class="btn btn-outline-dark mb-4" href="?page={{ problems.next_page_number }}">&raquo;</a>
+     <a class="btn btn-outline-dark mb-4" href="?page={{ page_obj.paginator.num_pages}}" >Last</a>
+    {% endif %}
+{% endif %}
+{% endif %}
+
+
+{% if ordered %}
+     {% if problems.has_other_pages %}
+    {% if problems.has_previous %}
+      <a class="btn btn-outline-dark mb-4" href="?by={{by}}&order={{order}}&page=1" >First</a>
+      <a class="btn btn-outline-dark mb-4" href="?by={{by}}&order={{order}}&page={{ problems.previous_page_number }}">&laquo;</a>
+    {% endif %}
+
+    {% for i in problems.paginator.page_range %}
+      {% if problems.number == i %}
+        <a class="disabled btn btn-dark mb-4" href="?by={{by}}&order={{order}}&page={{ i }}" >{{ i }}</a>
+        {% elif i > problems.number|add:'-3' and  i < problems.number|add:'3' %}
+        <a class="btn btn-outline-dark mb-4" href="?by={{by}}&order={{order}}&page={{ i }}" >{{i}}</a>
+         {% endif %}
+       {% endfor %}
+
+    {% if problems.has_next %}
+     <a class="btn btn-outline-dark mb-4" href="?by={{by}}&order={{order}}&page={{ problems.next_page_number }}">&raquo;</a>
+     <a class="btn btn-outline-dark mb-4" href="?by={{by}}&order={{order}}&page={{ page_obj.paginator.num_pages}}" >Last</a>
+    {% endif %}
+{% endif %}
+{% endif %}
+  
+
+    
+        
+      </div>
+   
+      <div class="col-md-3 mt-2">
+           <a href="{% url 'addproblem' %}" ><button class="btn btn-primary form-control"><i class="fas fa-plus"></i> Add Problem</button></a>
+           <br><br>
+        
+    
+           <div class="content-section shadow-lg p-3  bg-white rounded">
+           <h6>Filter by tags</h6><hr>
+           <form action="{% url 'filter_tags' %}" method="post">
+           {% csrf_token %}
+           <select class="tokenize-demo" name="tag[]" multiple required>
+            <option value="DP">Dynamic-programming</option>
+            <option value="Bit-mask">Bit-masking</option>
+            <option value="Greedy">Greedy</option>
+            <option value="Graph">Graph</option>
+            <option value="Divide-Conquer">Divide-Conquer</option>
+            <option value="Sorting">Sorting</option>
+          </select>
+          <center>
+          <button class="btn btn-outline-primary mt-2" type="submit">filter</button>
+          </center>
+          </form>
+        </div>
+
+    
+			<div class="content-section shadow-lg p-3  bg-white rounded">
+      <h6>Filter by difficulty</h6><hr>
+		<canvas id="pieChart"></canvas>
+	
+	<script>
+var get_data=$.ajax({
+  method:"GET",
+  url:"{% url 'get-data' %}",
+  async: !1,
+  success:function(json){
+  }
+});
+
+var mydata=get_data.responseJSON.arr;
+var canvasP = document.getElementById("pieChart");
+var ctxP = canvasP.getContext('2d');
+var myPieChart = new Chart(ctxP, {
+   type: 'pie',
+   data: {
+      labels: ["Expert  ", "Hard", "Medium", "Easy"],
+      datasets: [{
+         data: mydata,
+         backgroundColor: ["#FF0000", "#FFC107", "#46BFBD", "#5BC85B"],
+         hoverBackgroundColor: ["#FF5A5E", "#FFC870", "#5AD3D1", "#90EE90"]
+      }]
+   },
+   options: {
+      legend: {
+         responsive: true,
+         display: true,
+         position: "bottom"
+      },
+   }
+});
+
+canvasP.onclick = function(e) {
+   var slice = myPieChart.getElementAtEvent(e);
+   if (!slice.length) return; // return if not clicked on slice
+   var label = slice[0]._model.label;
+   switch (label) {
+      // add case for each label/slice
+      case 'Expert  ':
+         window.location.href = "{% url 'filter-difficulty' "Expert" %}";
+         break;
+      case 'Hard':
+         window.location.href = "{% url 'filter-difficulty' "Hard" %}";
+         break;
+      case 'Medium':
+         window.location.href = "{% url 'filter-difficulty' "Medium" %}";
+         break;
+      case 'Easy':
+         window.location.href = "{% url 'filter-difficulty' "Easy" %}";
+         break;
+  
+   }
+}
+		
+
+	</script>
+       
+      </div>
+
+          	<div class="content-section shadow-lg p-3  bg-white rounded">
+      <h6>Order by</h6><hr>
+      
+      <div class="dropright">
+     <button class="form-control btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+ Accuracy
+     </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    <a class="dropdown-item" href="{% url 'order' %}?by=accuracy&order=ascending">Highest accuracy</a>
+    <a class="dropdown-item" href="{% url 'order' %}?by=accuracy&order=descending">Lowest accuracy</a>
+    
+  </div>
+</div>
+            <div class="dropright">
+     <button class="mt-1 form-control btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Submissions
+     </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    <a class="dropdown-item" href="{% url 'order' %}?by=submissions&order=ascending">Most submissions</a>
+    <a class="dropdown-item" href="{% url 'order' %}?by=submissions&order=descending">Least submissions</a>
+    
+  </div>
+</div>
+
+        <div class="dropright">
+     <button class="mt-1 form-control btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Date Added
+     </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    <a class="dropdown-item" href="{% url 'order' %}?by=date&order=ascending">Newest first</a>
+    <a class="dropdown-item" href="{% url 'order' %}?by=date&order=descending">Oldest first</a>
+    
+  </div>
+</div>
+
+
+           <div class="dropright">
+     <button class="mt-1 form-control btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Difficulty
+     </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    <a class="dropdown-item" href="{% url 'order' %}?by=difficulty&order=ascending">Easy first</a>
+    <a class="dropdown-item" href="{% url 'order' %}?by=difficulty&order=descending">Tough first</a>
+    
+  </div>
+</div>
+
+  </div>
+
+
+
+		
+
+      </div>
+ </main>
+
+  
+
+
+
+  
+
+{% endblock content %}
